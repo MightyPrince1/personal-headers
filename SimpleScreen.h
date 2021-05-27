@@ -21,7 +21,7 @@
 #include "PrintColor.h"
 #include "CrossPlatform.h"
 
-//from tstanisl
+//from tstanisl(stack overflow)
 int ScreenHeight = 0;
 int ScreenWidth = 0;
 int (**ScreenSpace)[3] = NULL;
