@@ -7,20 +7,27 @@ int position[3] //x,y,z
 int horizontal_rotation
 int vertical_rotation
 float step_size
+int RenderDistance
 
-projection
+DeleteProjection()
+ResizeProjection(int x, int y)
+
+CalculateProjection()
 */
 
 #include "ConsoleScreen.h"
 #include "World.h"
 
-int ProjectionHeight = ScreenHeight;
-int ProjectionWidth = ScreenWidth;
+int ProjectionHeight = 1800;
+int ProjectionWidth = 2880;
+
+//3000 fps(on a Radeon 560)
 
 int (**ProjectionMap) = NULL;
 
-void release() {
+void DeleteProjection() {
     if (ProjectionMap) {
+        free(ProjectionMap[0]);
         free(ProjectionMap);
         ProjectionMap = NULL;
     }
@@ -28,7 +35,7 @@ void release() {
 
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 
-void resize(int rows, int cols) {
+void ResizeProjection(int rows, int cols) {
     // allocate new screen
     int (**scr) = calloc(rows, sizeof *scr);
     int (*data)[cols] = calloc(rows, sizeof *data);
@@ -42,7 +49,7 @@ void resize(int rows, int cols) {
         memcpy(scr[r], ProjectionMap[r], sizeof(int[valid_cols]));
 
     // release old screen
-    release();
+    DeleteProjection();
 
     // publish a new screen
     ProjectionMap = scr;
@@ -51,28 +58,29 @@ void resize(int rows, int cols) {
 
 }
 
+int RenderDistance = 128;
+
+
 int FoV = 90;
-int FoV_v = ProjectionWidth/(FoV * ProjectionHeight);
 
 int position[3] = {0,0,0};
-int horizontal_rotation = 0; //in degrees
+int horizontal_rotation = 0;
 int vertical_rotation = 0;
 
 float step_size;
 
-projection(char mode[9]){
+void CalculateProjection(){
   int breaker = 0;
 
   breaker = (ProjectionHeight >= ScreenHeight) + (ProjectionWidth >= ScreenWidth);
 
-  char calculate[9] = "calculate";
-  char print[5] = "print";
+  int FoV_v = ProjectionWidth/(FoV * ProjectionHeight);
 
   if(breaker == 0){
     for(int i = 0; i < ProjectionHeight; i ++){
       for(int j = 0; j < ProjectionWidth; j ++){
-        float aplha_vertical = atan(((ProjectionHeight / 2 - i) * tan(FoV_v / 2))/(ProjectionWidth / 2));
-        float alpha_horizontal = atan(((ProjectionWidth / 2 - j) * tan(FoV / 2))/(ProjectionHeight / 2));
+        float alpha_vertical = RadiansToDegrees(atan(((ProjectionHeight / 2 - i) * tan(FoV_v / 2))/(ProjectionWidth / 2)));
+        float alpha_horizontal = RadiansToDegrees(atan(((ProjectionWidth / 2 - j) * tan(FoV / 2))/(ProjectionHeight / 2)));
 
 
         float x_step = step_size * cos(DegreesToRadians(alpha_vertical / 2)) * cos(DegreesToRadians(90 - (alpha_horizontal / 2))) * sin(DegreesToRadians(horizontal_rotation))* sin(DegreesToRadians(vertical_rotation));
@@ -81,32 +89,26 @@ projection(char mode[9]){
 
         int NothingHit = 1;
 
-        int x = 0;
-        int y = 0;
-        int z = 0;
+        double x = 0;
+        double y = 0;
+        double z = 0;
 
-        while(NothingHit == 1){
+        int TravelledDistance = 0;
+
+        while(NothingHit == 1 && TravelledDistance < RenderDistance){
             NothingHit = (world[x + position[0]][y + position[1]][z + position[2]] < 1);
 
-            if(strcmp(mode, calculate) == 0){
-              ProjectionMap = world[x + position[0]][y + position[1]][z + position[2]];
-            }
-
-            if(strcmp(mode,print) == 0){
-              FullPixel_color(world[x + position[0]][y + position[1]][z + position[2]]);
-              printf("  ");
-            }
+            ProjectionMap = world[x + position[0]][y + position[1]][z + position[2]];
 
             x = x + x_step;
             y = y + y_step;
             z = z + z_step;
-        }
 
-      }
-      if(strcmp(mode,print) == 0){
-        printf("\n");
+            TravelledDistance ++;
+          }
+        }
       }
     }
   }
-
 }
+
