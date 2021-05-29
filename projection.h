@@ -11,7 +11,7 @@ float step_size
 projection
 */
 
-#include "SimpleScreen.h"
+#include "ConsoleScreen.h"
 #include "World.h"
 
 int ProjectionHeight = ScreenHeight;
