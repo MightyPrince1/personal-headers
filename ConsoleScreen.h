@@ -1,18 +1,23 @@
 /*
-(int / use as short)ScreenSpace[x][y][(int)PartOfScreen(foreground + background + occupancy)];
-                    release()
-                    resize(NewX,NewY)
-(int / use as bool) ClearColor
-(int / use as bool) RemoveOldOutput
-//whether or not screen will be cleared at runtime;
-                    DebugPrint()
-(char)              background_occupancy[101]
-                    screen("action(write + print + fill)","PartOfScreen(foreground + background + FullPixel + occupancy)",x,y,color)
-                    ScreenPrint()
-                    ScreenClear()
-(int / use as bool) SizeChanged
-(int / use as bool) UpdateScreen
-                    DebugSettings()
+#public
+  (int / use as short)ScreenSpace[x][y][(int)PartOfScreen(foreground + background + occupancy)];
+                      release()
+                      resize(NewX,NewY)
+  (int / use as bool) ClearColor
+  (int / use as bool) RemoveOldOutput
+  //whether or not screen will be cleared at runtime;
+                      DebugPrint()
+  (char)              background_occupancy[101]
+                      screen("action(write + print + fill)","PartOfScreen(foreground + background + FullPixel + occupancy)",x,y,color)
+                      ScreenPrint()
+                      ScreenClear()
+  (int / use as bool) SizeChanged
+  (int / use as bool) UpdateScreen
+                      DebugSettings()
+
+#private
+  (int)               ScreenHeight
+  (int)               ScreenWidth
 
 */
 #include <stdio.h>
@@ -21,7 +26,7 @@
 #include "PrintColor.h"
 #include "CrossPlatform.h"
 
-//from tstanisl(stack overflow)
+//from tstanisl
 int ScreenHeight = 0;
 int ScreenWidth = 0;
 int (**ScreenSpace)[3] = NULL;
@@ -263,71 +268,3 @@ void DebugSettings(){
 
   UpdateScreen = 1;
 }
-
-/*void ScreenFill(char AssignToType1[10]; int color1){
-  char foreground[] = "foreground";
-  char background[] = "background";
-  char occupancy[] = "occupancy";
-  char all[] = "all";
-
-  if(strcmp(AssignToType1,foreground) == 0){
-    screen("fill","foreground",0,0,color1);
-  }
-  if(strcmp(AssignToType1,background) == 0){
-    screen("fill","background",0,0,color1);
-  }
-  if(strcmp(AssignToType1,occupancy) == 0){
-    screen("fill","occupancy",0,0,color1);
-  }
-  if(strcmp(AssignToType1,all) == 0){
-    screen("fill","foreground",0,0,color1);
-    screen("fill","background",0,0,color1);
-  }
-}
-*/
-
-/*
-
-char background_occupacy[101] = {' ','@','@','@','@','@','@','W','W','M','M','M','M','M','M','M','M','B','Q','G','P','N','N','&','O','D','g','S','E','m','w','A','8','Z','K','H','6','9','X','C','p','b','q','5','U','2','O','e','3','a','V','V','F','4','h','k','o','s','y','u','n','n','c','T','z','z','7','J','x','L','L','v','?','?','=','f','t','t','j',')','(','(','r','r','i','^','/','*','_',';',';',':','-',',','.','.',' ',' ',' ',' '};
-
-//int ScreenHeight = 20;
-//int ScreenWidth = 35;
-
-void screen(char mode[5],int x, int y, int color, int AssignToType){
-  //copy vaules of adresses
-
-  char write[] = "write";
-  char print[] = "print";
-
-  //int ScreenSpace[ScreenHeight][ScreenWidth][3];//[][][3] 0 ^= foreground_color, 1 ^= background_color, 2 ^= (background)occupacy
-
-  if(strcmp(mode, write) == 0){
-    ScreenSpace[x][y][AssignToType] = color;
-
-  }
-
-  if(strcmp(mode, print) == 0){
-    //printf("%d",ScreenSpace[x][y][AssignToType]);
-    for(int i = 0; i < ScreenHeight; i++){
-      for(int j = 0; j < ScreenWidth; j++){
-        for(int k = 0; k < 3; k ++){
-          ScreenSpace[i][j][k] = ScreenSpace[i][j][k] * (ScreenSpace[i][j][k] < 8);
-          printf("%d",ScreenSpace[i][j][k]);
-        }
-        HighIntensity = (IsEven(ScreenSpace[i][j][0] == 1));
-
-        text_color(((ScreenSpace[i][j][0]+1) / 2) -1);
-
-        HighIntensity = (IsEven(ScreenSpace[i][j][1] == 1));
-
-        background_color((((ScreenSpace[i][j][1]+1) / 2) -1)*!(ScreenSpace[i][j][2] == 0)  +  (((ScreenSpace[i][j][0]+1) / 2) -1)*(ScreenSpace[i][j][2] == 0));
-
-        printf("%c%c",background_occupacy[ScreenSpace[i][j][2]],background_occupacy[ScreenSpace[i][j][2]]);
-
-        //text_color(ScreenSpace[i][j][0]);
-        //background_color(ScreenSpace[i][j][1]);
-        //printf("%c%c\n",background_occupacy[ScreenSpace[i][j][2]],background_occupacy[ScreenSpace[i][j][2]]);
-      }
-    }
-  }
-}*/
