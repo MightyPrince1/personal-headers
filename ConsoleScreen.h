@@ -1,8 +1,8 @@
 /*
 #public
   (int / use as short)ScreenSpace[x][y][(int)PartOfScreen(foreground + background + occupancy)];
-                      release()
-                      resize(NewX,NewY)
+                      DeleteScreenSpace()
+                      ResizeScreenSpace(NewX,NewY)
   (int / use as bool) ClearColor
   (int / use as bool) RemoveOldOutput
   //whether or not screen will be cleared at runtime;
@@ -26,12 +26,12 @@
 #include "PrintColor.h"
 #include "CrossPlatform.h"
 
-//from tstanisl
+//from tstanisl (stackoverflow)
 int ScreenHeight = 0;
 int ScreenWidth = 0;
 int (**ScreenSpace)[3] = NULL;
 
-void release() {
+void DeleteScreenSpace() {
     if (ScreenSpace) {
         free(ScreenSpace[0]);
         free(ScreenSpace);
@@ -41,7 +41,7 @@ void release() {
 
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 
-void resize(int rows, int cols) {
+void ResizeScreenSpace(int rows, int cols) {
     // allocate new screen
     int (**scr)[3] = calloc(rows, sizeof *scr);
     int (*data)[cols][3] = calloc(rows, sizeof *data);
@@ -55,7 +55,7 @@ void resize(int rows, int cols) {
         memcpy(scr[r], ScreenSpace[r], sizeof(int[valid_cols][3]));
 
     // release old screen
-    release();
+    DeleteScreenSpace();
 
     // publish a new screen
     ScreenSpace = scr;
@@ -213,7 +213,7 @@ void DebugSettings(){
     scanf("%d", &NewY);
     printf("\n");
 
-    resize(NegativeToPositive(NewX), NegativeToPositive(NewY));
+    ResizeScreenSpace(NegativeToPositive(NewX), NegativeToPositive(NewY));
 
     SizeChanged = 1;
 
