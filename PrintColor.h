@@ -12,7 +12,7 @@
 #functions
                       text_color(color)
                       background_color(color)
-                      reset()
+                      reset_text()
 */
 
 #include <stdio.h>
@@ -59,6 +59,6 @@ void FullPixel_color(unsigned short color){
   printf("\e[%dm",color_value);
 }
 
-void reset(){
+void reset_text(){
   printf("\e[0m");
 }
