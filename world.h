@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int WorldMap[4069][4069][4069];
+int WorldMap[1000][1000][1000];
 
 int default_WorldState = 0;
 
