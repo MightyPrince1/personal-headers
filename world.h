@@ -10,7 +10,7 @@ int World_z = 128;
 
 int (**WorldMap) = NULL;
 
-void release() {
+void DeleteWorld() {
     if (WorldMap) {
         free(WorldMap);
         WorldMap = NULL;
@@ -19,7 +19,7 @@ void release() {
 
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 
-void resize(int x, int y, int z) {
+void ResizeWorld(int x, int y, int z) {
     // allocate new screen
     int (**scr) = calloc(x, sizeof *scr);
     int (*data)[y] = calloc(x, sizeof *data);
@@ -36,7 +36,7 @@ void resize(int x, int y, int z) {
       }
     }
     // release old screen
-    release();
+    DeleteWorld();
 
     // publish a new screen
     WroldMap = scr;
