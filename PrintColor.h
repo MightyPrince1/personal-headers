@@ -15,7 +15,7 @@
                       reset_text()
 */
 
-#ifnef PRINTCOLOR_H
+#ifndef PRINTCOLOR_H
 #define PRINTCOLOR_H
 
 #include <stdio.h>
@@ -58,7 +58,7 @@ void background_color(unsigned short color){
 void FullPixel_color(unsigned short color){
   int color_value = 30 + (color/2 + 60 * (IsEven(color) == 0)) * (color < 16);
   printf("\e[0;%dm",color_value);
-  int color_value = 40 + (color/2 + 60 * (IsEven(color) == 0)) * (color < 16);
+  color_value = 40 + (color/2 + 60 * (IsEven(color) == 0)) * (color < 16);
   printf("\e[%dm",color_value);
 }
 

@@ -191,7 +191,7 @@ void DebugSettings(){
     CrossSystem("clear");
   }
 
-  reset();
+  reset_text();
   printf("settings\n");
   printf("-----------------\n");
   printf("1 resolution\n");
