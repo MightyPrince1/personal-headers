@@ -6,7 +6,7 @@
 				 							CrossSystem()
 */
 #ifndef CROSSPLATFORM_H
-#define CROSSPLATORM_H
+#define CROSSPLATFORM_H
 
 #include <time.h>
 
