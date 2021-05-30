@@ -4,6 +4,8 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int World_x = 128;
