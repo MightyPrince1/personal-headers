@@ -141,7 +141,7 @@ void screen(char mode[5],char AssignToType[10], int x, int y, int color){
             text_color(ScreenSpace[i][j][0] * !(ScreenSpace[i][j][0] < 0) + ClearColor * (ScreenSpace[i][j][0] < 0));
             background_color(ScreenSpace[i][j][1] * !(ScreenSpace[i][j][1] < 0) + ClearColor * (ScreenSpace[i][j][1] < 0));
             printf("@@");
-            reset();
+            reset_text();
           }
         printf("\n");
       }
