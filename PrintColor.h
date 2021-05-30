@@ -15,6 +15,9 @@
                       reset_text()
 */
 
+#ifnef PRINTCOLOR_H
+#define PRINTCOLOR_H
+
 #include <stdio.h>
 #include "AdMath.h"
 
@@ -62,3 +65,5 @@ void FullPixel_color(unsigned short color){
 void reset_text(){
   printf("\e[0m");
 }
+
+#endif

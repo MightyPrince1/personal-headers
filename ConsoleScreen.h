@@ -20,6 +20,9 @@
   (int)               ScreenWidth
 
 */
+#ifndef CONSOLESCREEN_H
+#define CONSOLESCREEN_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -268,3 +271,5 @@ void DebugSettings(){
 
   UpdateScreen = 1;
 }
+
+#endif

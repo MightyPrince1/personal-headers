@@ -12,6 +12,9 @@
 
 */
 
+#ifndef ADMATH_H
+#define ADMATH_H
+
 #include <math.h>
 
 int IsEven(int number){
@@ -70,3 +73,5 @@ int IntRoot(int number, int PowerOf){
 
 	return result;
 }
+
+#endif

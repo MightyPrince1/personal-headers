@@ -1,6 +1,8 @@
 /*WIP(still have to redo allocation)
 
 */
+#ifndef WORLD_H
+#define WORLD_H
 
 #include <string.h>
 
@@ -45,3 +47,5 @@ void ResizeWorld(int x, int y, int z) {
     World_z = z;
 
 }
+
+#endif

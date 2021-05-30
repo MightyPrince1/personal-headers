@@ -5,6 +5,8 @@
 				 							KeyPressed()
 				 							CrossSystem()
 */
+#ifndef CROSSPLATFORM_H
+#define CROSSPLATORM_H
 
 #include <time.h>
 
@@ -79,5 +81,6 @@ void CrossSystem(char command[50]){
 			system(command);
 		}
 	}
-
 }
+
+#endif

@@ -14,6 +14,9 @@ ResizeProjection(int x, int y)
 
 CalculateProjection()
 */
+#ifndef PROJECTION_H
+#define PROJECTION_H
+
 
 #include "ConsoleScreen.h"
 #include "World.h"
@@ -112,3 +115,4 @@ void CalculateProjection(){
   }
 }
 
+#endif
