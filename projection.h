@@ -99,9 +99,9 @@ void CalculateProjection(){
         int TravelledDistance = 0;
 
         while(NothingHit == 1 && TravelledDistance < RenderDistance){
-            NothingHit = (world[x + position[0]][y + position[1]][z + position[2]] < 1);
+            NothingHit = (WorldMap[x + position[0]][y + position[1]][z + position[2]] < 1);
 
-            ProjectionMap = world[x + position[0]][y + position[1]][z + position[2]];
+            ProjectionMap = WorldMap[x + position[0]][y + position[1]][z + position[2]];
 
             x = x + x_step;
             y = y + y_step;
