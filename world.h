@@ -22,6 +22,7 @@ void DefaultWorldMap(){
   }
 }
 
+//broken have to do memory allocation
 /*
 int World_x = 128;
 int World_y = 128;

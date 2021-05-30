@@ -26,6 +26,7 @@ int ProjectionMap[28][60];
 int ProjectionHeight = 28;
 int ProjectionWidth = 60;
 
+//broken have to do memory allocation
 /*
 //3000 fps(on a Radeon 560)
 
