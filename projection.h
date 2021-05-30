@@ -21,9 +21,12 @@ CalculateProjection()
 #include "ConsoleScreen.h"
 #include "World.h"
 
-int ProjectionHeight = 1800;
-int ProjectionWidth = 2880;
+int ProjectionMap[28][60];
 
+int ProjectionHeight = 28;
+int ProjectionWidth = 60;
+
+/*
 //3000 fps(on a Radeon 560)
 
 int (**ProjectionMap) = NULL;
@@ -60,7 +63,7 @@ void ResizeProjection(int rows, int cols) {
     ProjectionWidth = cols;
 
 }
-
+*/
 int RenderDistance = 128;
 
 
