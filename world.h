@@ -8,6 +8,21 @@
 #include <stdlib.h>
 #include <string.h>
 
+int WorldMap[4069][4069][4069];
+
+int default_WorldState = 0;
+
+void DefaultWorldMap(){
+  for(int i = 0; i < 4069; i ++){
+    for(int j = 0; j < 4069; j ++){
+      for(int k = 0; k < 4069; k ++){
+        WorldMap[i][j][k] = default_WorldState;
+      }
+    }
+  }
+}
+
+/*
 int World_x = 128;
 int World_y = 128;
 int World_z = 128;
@@ -49,5 +64,6 @@ void ResizeWorld(int x, int y, int z) {
     World_z = z;
 
 }
+*/
 
 #endif
