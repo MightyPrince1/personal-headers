@@ -8,6 +8,10 @@
 #ifndef CROSSPLATFORM_H
 #define CROSSPLATFORM_H
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 #include <time.h>
 
 void delay(int time){
@@ -82,5 +86,9 @@ void CrossSystem(char command[50]){
 		}
 	}
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

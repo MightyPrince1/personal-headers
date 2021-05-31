@@ -15,6 +15,10 @@
 #ifndef ADMATH_H
 #define ADMATH_H
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 #include <math.h>
 
 int IsEven(int number){
@@ -73,5 +77,9 @@ int IntRoot(int number, int PowerOf){
 
 	return result;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

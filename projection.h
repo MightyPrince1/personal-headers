@@ -17,6 +17,10 @@ CalculateProjection()
 #ifndef PROJECTION_H
 #define PROJECTION_H
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 
 #include "ConsoleScreen.h"
 #include "World.h"
@@ -103,23 +107,28 @@ void CalculateProjection(){
         int TravelledDistance = 0;
 
         while(NothingHit == 1 && TravelledDistance < RenderDistance){
-            long x_array = x;
-            long y_array = y;
-            long z_array = z;
+          long x_array = x;
+          long y_array = y;
+          long z_array = z;
 
-            NothingHit = (WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]] < 1);
+          NothingHit = (WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]] < 1);
 
-            ProjectionMap[i][j] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]];
+          ProjectionMap[i][j] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]];
 
-            x = x + x_step;
-            y = y + y_step;
-            z = z + z_step;
+          x = x + x_step;
+          y = y + y_step;
+          z = z + z_step;
 
-            TravelledDistance ++;
-          }
+          TravelledDistance ++;
         }
       }
     }
   }
+}
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

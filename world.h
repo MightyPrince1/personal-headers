@@ -4,6 +4,10 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -66,5 +70,9 @@ void ResizeWorld(int x, int y, int z) {
 
 }
 */
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

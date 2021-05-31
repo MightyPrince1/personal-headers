@@ -23,6 +23,10 @@
 #ifndef CONSOLESCREEN_H
 #define CONSOLESCREEN_H
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -271,5 +275,9 @@ void DebugSettings(){
 
   UpdateScreen = 1;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
