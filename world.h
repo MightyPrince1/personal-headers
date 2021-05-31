@@ -17,9 +17,9 @@ int WorldMap[1000][1000][1000];
 int default_WorldState = 0;
 
 void DefaultWorldMap(){
-  for(int i = 0; i < 4069; i ++){
-    for(int j = 0; j < 4069; j ++){
-      for(int k = 0; k < 4069; k ++){
+  for(int i = 0; i < 1000; i ++){
+    for(int j = 0; j < 1000; j ++){
+      for(int k = 0; k < 1000; k ++){
         WorldMap[i][j][k] = default_WorldState;
       }
     }
