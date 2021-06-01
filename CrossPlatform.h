@@ -35,20 +35,18 @@ int KeyPressed(char input){
 	#ifdef __linux__
 		#include <stdlib.h>
 
-		char  SystemInput;
-
 		if(WaitForInput == 0){
 			system("/bin/stty raw");
 		}
 
-		SystemInput = getchar();
+		PressedKey = getchar();
 
 		if(WaitForInput == 0){
 			system("/bin/stty cooked");
 		}
 
-		PressedKey = SystemInput;
-		pressed = (input == SystemInput);
+		PressedKey = PressedKey;
+		pressed = (input == PressedKey);
 
 	#elif _WIN32
 		#include <windows.h>
