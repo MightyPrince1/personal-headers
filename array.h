@@ -7,8 +7,7 @@
 #ifdef __CPLUSPLUS
 extern "C"{
 #endif
-void free(void *array){
-
+void delete(int *array){
 }
 
 void resize(void *array, int a){
