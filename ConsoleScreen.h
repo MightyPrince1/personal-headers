@@ -12,7 +12,7 @@
                       ScreenPrint()
                       ScreenClear()
   (int / use as bool) SizeChanged
-  (int / use as bool) UpdateScreen
+  (int / use as bool) ScreenUpdate
                       DebugSettings()
 
 #private
@@ -144,7 +144,7 @@ void screen(char mode[5],char AssignToType[10], int x, int y, int color){
 
             text_color(ScreenSpace[i][j][0] * !(ScreenSpace[i][j][0] < 0) + ClearColor * (ScreenSpace[i][j][0] < 0));
             background_color(ScreenSpace[i][j][1] * !(ScreenSpace[i][j][1] < 0) + ClearColor * (ScreenSpace[i][j][1] < 0));
-            printf("@@");
+            printf("  ");
             reset_text();
           }
         printf("\n");
@@ -185,7 +185,7 @@ void ScreenClear(){
 }
 
 int SizeChanged = 0;
-int UpdateScreen = 1;
+int ScreenUpdate = 1;
 
 void DebugSettings(){
   SizeChanged = 0;
@@ -273,7 +273,7 @@ void DebugSettings(){
     delay(1000);
   }
 
-  UpdateScreen = 1;
+  ScreenUpdate = 1;
 }
 
 #ifdef __cplusplus

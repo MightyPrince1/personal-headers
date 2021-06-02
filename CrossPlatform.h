@@ -14,6 +14,8 @@ extern "C"{
 
 #include <time.h>
 
+
+
 void delay(int time){
 	long pause;
 
@@ -26,13 +28,78 @@ void delay(int time){
 	}
 }
 
+
+
+int MakeWindow = 0;
+	//crosswindow
+#if MakeWindow==1
+
+	#ifdef __linux__
+		#include <X11/Xlib.h>
+		#include <X11/Xcms.h>
+		#include <string.h>
+
+		Display *d;
+		Window w;
+		XEvent e;
+
+		void WindowCreate(){
+			d = XOpenDisplay(NULL);
+
+			if(d == NULL){
+				printf("Can't open display! Using WSL?\n");
+				exit(1);
+			}
+
+			s = DefaultScreen(d);
+			w = XCreateSimpleWindow(d,RootWindow(d, s), 10, 10, 100, 100, 1,
+															BlackPixel(d, s), WhitePixel(d, s));
+
+			XSelectInput(d, w, ExposureMask | KeyPressMask);
+			XMapWindow(d, w);
+		}
+
+		void WindowWrite(int x, int y, int r, int g, int b){
+
+		}
+
+		void WindowUpdate(){
+			XNextEvent(d, &e);
+		}
+
+		void WindowClose(){
+			XCloseDisplay(d);
+		}
+
+		#endif
+
+#endif
+
+
+
 int WaitForInput = 0;
 char PressedKey;
 
 int KeyPressed(char input){
 	int pressed = 0;
+	#ifdef __WIN32
+		#include <windows.h>
+		if(GetKeyState(input) < 0){
+			pressed = 1;
+		}
 
-	#ifdef __linux__
+	#elif MakeWindow==1
+		 XNextEvent(display, &event);
+
+		 if (event.type == KeyPress){
+
+			 if(event.xkey.keycode == input){
+				 pressed = 1;
+			 }
+		 }
+
+	#else
+
 		#include <stdlib.h>
 
 		if(WaitForInput == 0){
@@ -48,15 +115,12 @@ int KeyPressed(char input){
 		PressedKey = PressedKey;
 		pressed = (input == PressedKey);
 
-	#elif _WIN32
-		#include <windows.h>
-		if(GetKeyState(input) < 0){
-			pressed = 1;
-		}
 	#endif
 
 	return pressed;
 }
+
+
 
 void CrossSystem(char command[50]){
 	#include <stdlib.h>
@@ -84,6 +148,8 @@ void CrossSystem(char command[50]){
 		}
 	}
 }
+
+
 
 #ifdef __cplusplus
 }
