@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #ifndef ARRAY_H
 #define ARRAY_H
 
@@ -8,20 +5,22 @@
 extern "C"{
 #endif
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+
 void delete(int *array){
 
 }
 
-void resize(void *array, int a){
+void resize(void *array, int ArraySizes){
+	va_list varlist;
 
-}
+	va_start(varlist, ArraySizes);
 
-void Resize2D(void *array, int a, int b){
+	va_arg(varlist, int);
 
-}
-
-void Resize3D(void *array, int a, int b, int c){
-
+	va_end(varlist);
 }
 
 int LenghtOfArray(void *array){
