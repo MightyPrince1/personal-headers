@@ -30,11 +30,12 @@ void delay(int time){
 
 
 
-int MakeWindow = 0;
 	//crosswindow
-#if MakeWindow==1
+#ifdef USING_WINDOW
 
 	#ifdef __linux__
+		#define USING_X11
+
 		#include <X11/Xlib.h>
 		#include <X11/Xcms.h>
 		#include <string.h>
@@ -43,7 +44,16 @@ int MakeWindow = 0;
 		Window w;
 		XEvent e;
 
-		void WindowCreate(){
+
+	#elif __WIN32
+		#define USING_WIN32
+
+		#include <windows.h>
+
+	#endif
+
+	void WindowCreate(){
+		#ifdef USING_X11
 			d = XOpenDisplay(NULL);
 
 			if(d == NULL){
@@ -57,21 +67,25 @@ int MakeWindow = 0;
 
 			XSelectInput(d, w, ExposureMask | KeyPressMask);
 			XMapWindow(d, w);
-		}
-
-		void WindowWrite(int x, int y, int r, int g, int b){
-
-		}
-
-		void WindowUpdate(){
-			XNextEvent(d, &e);
-		}
-
-		void WindowClose(){
-			XCloseDisplay(d);
-		}
 
 		#endif
+	}
+
+	void WindowWrite(int x, int y, int r, int g, int b){
+
+	}
+
+	void WindowUpdate(){
+		#ifdef USING_X11
+			XNextEvent(d, &e);
+		#endif
+	}
+
+	void WindowClose(){
+		#ifdef USING_X11
+			XCloseDisplay(d);
+		#endif
+	}
 
 #endif
 
@@ -88,7 +102,7 @@ int KeyPressed(char input){
 			pressed = 1;
 		}
 
-	#elif MakeWindow==1
+	#elif USING_X11
 		 XNextEvent(display, &event);
 
 		 if (event.type == KeyPress){
