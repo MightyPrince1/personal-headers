@@ -68,7 +68,7 @@ void delay(int time){
 
 			if(d == NULL){
 				printf("Can't open display! Using WSL?\n");
-				exit(1);
+				return 0;
 			}
 
 			s = DefaultScreen(d);
