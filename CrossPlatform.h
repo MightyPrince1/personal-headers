@@ -9,11 +9,11 @@
                       WindowClose()
 #
 
-				 							delay(in milliseconds)
-	(int / usa as bool)	WaitForInput
-	(char) 							PressedKey
-				 							KeyPressed()
-				 							CrossSystem()
+											delay(in milliseconds)
+	(int / use as bool) WaitForInput
+	(char)							PressedKey
+											KeyPressed()
+											CrossSystem()
 */
 #ifndef CROSSPLATFORM_H
 #define CROSSPLATFORM_H
