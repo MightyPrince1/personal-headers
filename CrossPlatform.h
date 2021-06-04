@@ -89,7 +89,7 @@ void delay(int time){
   int PixelHeight = 1;
 
 	void WindowWrite(int x, int y, int r, int g, int b){
-    if(!(r = NULL || g = NULL || b = NULL)){
+    if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
       XSetForeground(d, gc, RGB(r,g,b));
     }
 		XDrawRectangle(d,w,gc, x, y, PixelWidth, PixelHeight);
