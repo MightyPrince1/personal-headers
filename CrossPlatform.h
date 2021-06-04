@@ -1,4 +1,13 @@
 /*
+#usage of following only if #define USING_WINDOW before including this header
+  (int / use as bool) WindowCreationPossible()
+                      WindowCreate(int Width, int Height)
+                      WindowUpdate()
+                      WindowWrite(int x, int y, int R, int G, int B)
+                      //if you don't want to change the color use out of bunds RGB values
+                      WindowClose()
+#
+
 				 							delay(in milliseconds)
 	(int / usa as bool)	WaitForInput
 	(char) 							PressedKey
@@ -61,15 +70,20 @@ void delay(int time){
 		#include <windows.h>
 
 	#endif
+  void WindowCreationPossible(){
+    if(d == NULL){
+      printf("Can't open display! Using WSL?\n");
+      return 0;
+    }
+  }
 
 	void WindowCreate(int width, int height){
 		#ifdef USING_X11
 			d = XOpenDisplay(NULL);
 
-			if(d == NULL){
-				printf("Can't open display! Using WSL?\n");
-				return 0;
-			}
+      if(WindowCreationPossible == 0){
+        return 0;
+      }
 
 			s = DefaultScreen(d);
 			w = XCreateSimpleWindow(d,RootWindow(d, s), 10, 10, width, height, 1,
@@ -89,20 +103,33 @@ void delay(int time){
   int PixelHeight = 1;
 
 	void WindowWrite(int x, int y, int r, int g, int b){
-    if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
-      XSetForeground(d, gc, RGB(r,g,b));
-    }
-		XDrawRectangle(d,w,gc, x, y, PixelWidth, PixelHeight);
+    #ifdef USING_X11
+      if(WindowCreationPossible == 0){
+        return 0;
+      }
+
+      if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
+        XSetForeground(d, gc, RGB(r,g,b));
+      }
+		  XDrawRectangle(d,w,gc, x, y, PixelWidth, PixelHeight);
+    #endif
 	}
 
 	void WindowUpdate(){
 		#ifdef USING_X11
+      if(WindowCreationPossible == 0){
+        return 0;
+      }
 			XNextEvent(d, &e);
 		#endif
 	}
 
 	void WindowClose(){
 		#ifdef USING_X11
+      if(WindowCreationPossible == 0){
+        return 0;
+      }
+
 			XFreeGC(d, gc);
       XDestroyWindow(d, w);
 			XCloseDisplay(d);
