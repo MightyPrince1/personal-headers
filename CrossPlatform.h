@@ -25,6 +25,7 @@ extern "C"{
 
 
 #include <time.h>
+#include <stdio.h>
 
 void delay(int time){
 	long pause;
@@ -74,9 +75,11 @@ void delay(int time){
     if(d == NULL){
       #undef USING_X11
       printf("Can't open display! Using WSL?\n");
+      getchar();
       #ifdef ERROR_RESULTS_IN_EXIT
         exit(1);
       #endif
+
       return 0;
     }
   }
