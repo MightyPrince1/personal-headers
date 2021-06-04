@@ -12,9 +12,9 @@
 extern "C"{
 #endif
 
+
+
 #include <time.h>
-
-
 
 void delay(int time){
 	long pause;
@@ -32,27 +32,37 @@ void delay(int time){
 
 	//crosswindow
 #ifdef USING_WINDOW
+  unsigned long RGB(int r, int g, int b){
+ 	  return b + (g<<8) + (r<<16);
+  }
+	//for now in hex code
+	unsigned long default_foreground_color = 0x000000;
+	unsigned long default_background_color = 0xffffff;
+
 
 	#ifdef __linux__
 		#define USING_X11
 
 		#include <X11/Xlib.h>
 		#include <X11/Xcms.h>
+    #include <X11/Xutil.h>
+    #include <X11/Xos.h>
 		#include <string.h>
 
 		Display *d;
 		Window w;
 		XEvent e;
+    int s;
+    KeySym key;
+    GC gc;
 
 
 	#elif __WIN32
-		#define USING_WIN32
-
 		#include <windows.h>
 
 	#endif
 
-	void WindowCreate(){
+	void WindowCreate(int width, int height){
 		#ifdef USING_X11
 			d = XOpenDisplay(NULL);
 
@@ -62,17 +72,27 @@ void delay(int time){
 			}
 
 			s = DefaultScreen(d);
-			w = XCreateSimpleWindow(d,RootWindow(d, s), 10, 10, 100, 100, 1,
-															BlackPixel(d, s), WhitePixel(d, s));
+			w = XCreateSimpleWindow(d,RootWindow(d, s), 10, 10, width, height, 1,
+															default_background_color, default_foreground_color);
 
-			XSelectInput(d, w, ExposureMask | KeyPressMask);
+			XSelectInput(d, w, ExposureMask | ButtonPressMask | KeyPressMask);
 			XMapWindow(d, w);
 
+      //create GC
+      gc = XCreateGC(d, w, 0, 0);
+
+      XMapRaised(d, w);
 		#endif
 	}
 
-	void WindowWrite(int x, int y, int r, int g, int b){
+  int PixelWidth = 1;
+  int PixelHeight = 1;
 
+	void WindowWrite(int x, int y, int r, int g, int b){
+    if(!(r = NULL || g = NULL || b = NULL)){
+      XSetForeground(d, gc, RGB(r,g,b));
+    }
+		XDrawRectangle(d,w,gc, x, y, PixelWidth, PixelHeight);
 	}
 
 	void WindowUpdate(){
@@ -83,6 +103,8 @@ void delay(int time){
 
 	void WindowClose(){
 		#ifdef USING_X11
+			XFreeGC(d, gc);
+      XDestroyWindow(d, w);
 			XCloseDisplay(d);
 		#endif
 	}
@@ -102,12 +124,15 @@ int KeyPressed(char input){
 			pressed = 1;
 		}
 
-	#elif USING_X11
+	#elifdef USING_X11
 		 XNextEvent(display, &event);
+     XRefreshKeyboardMapping();
 
-		 if (event.type == KeyPress){
+     char key_output;
 
-			 if(event.xkey.keycode == input){
+		 if(event.type == KeyPress && XLookupString(&event.xkey, key_output, 255, &key,0) == 1){
+
+			 if(key_output == input){
 				 pressed = 1;
 			 }
 		 }
@@ -150,16 +175,13 @@ void CrossSystem(char command[50]){
 		#endif
 	}
 	else{
-		int UsedWindows = 0;
 		#ifdef __WIN32
-			UsedWindows = 1;
 			system("PowerShell");
 			system(command);
 			system("exit")
-		#endif
-		if(UsedWindows == 0){
+		#else
 			system(command);
-		}
+    #endif
 	}
 }
 
