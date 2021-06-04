@@ -1,6 +1,6 @@
 /*
 #usage of following only if #define USING_WINDOW before including this header
-	(unsigned long)			RGB(int r, int g, int b);
+	(unsigned long)			RGBtoHex(int r, int g, int b);
 
 	(unsigned long)			default_foreground_color
 	(unsigned long)			default_background_color
@@ -51,7 +51,7 @@ void delay(int time){
 
 	//crosswindow
 #ifdef USING_WINDOW
-  unsigned long RGB(int r, int g, int b){
+  unsigned long RGBtoHex(int r, int g, int b){
  	  return b + (g<<8) + (r<<16);
   }
 	//for now in hex code
@@ -126,7 +126,7 @@ void delay(int time){
       }
 
       if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
-        XSetForeground(d, gc, RGB(r,g,b));
+        XSetForeground(d, gc, RGBtoHex(r,g,b));
       }
 		  XDrawRectangle(d,w,gc, x, y, PixelWidth, PixelHeight);
     #endif
