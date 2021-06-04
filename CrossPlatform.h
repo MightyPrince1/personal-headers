@@ -1,6 +1,7 @@
 /*
 #usage of following only if #define USING_WINDOW before including this header
   (int / use as bool) WindowCreationPossible()
+                      //if you do #define ERROR_RESULTS_IN_EXIT it will exit instead of running without window stuff
                       WindowCreate(int Width, int Height)
                       WindowUpdate()
                       WindowWrite(int x, int y, int R, int G, int B)
@@ -50,8 +51,7 @@ void delay(int time){
 
 
 	#ifdef __linux__
-		#define USING_X11
-
+    #define USING_X11
 		#include <X11/Xlib.h>
 		#include <X11/Xcms.h>
     #include <X11/Xutil.h>
@@ -70,9 +70,13 @@ void delay(int time){
 		#include <windows.h>
 
 	#endif
-  void WindowCreationPossible(){
+  int WindowCreationPossible(){
     if(d == NULL){
+      #undef USING_X11
       printf("Can't open display! Using WSL?\n");
+      #ifdef ERROR_RESULTS_IN_EXIT
+        exit(1);
+      #endif
       return 0;
     }
   }
@@ -82,7 +86,7 @@ void delay(int time){
 			d = XOpenDisplay(NULL);
 
       if(WindowCreationPossible == 0){
-        return 0;
+        return;
       }
 
 			s = DefaultScreen(d);
@@ -105,7 +109,7 @@ void delay(int time){
 	void WindowWrite(int x, int y, int r, int g, int b){
     #ifdef USING_X11
       if(WindowCreationPossible == 0){
-        return 0;
+        return;
       }
 
       if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
@@ -118,7 +122,7 @@ void delay(int time){
 	void WindowUpdate(){
 		#ifdef USING_X11
       if(WindowCreationPossible == 0){
-        return 0;
+        return;
       }
 			XNextEvent(d, &e);
 		#endif
@@ -127,7 +131,7 @@ void delay(int time){
 	void WindowClose(){
 		#ifdef USING_X11
       if(WindowCreationPossible == 0){
-        return 0;
+        return;
       }
 
 			XFreeGC(d, gc);
@@ -150,9 +154,10 @@ int KeyPressed(char input){
 		if(GetKeyState(input) < 0){
 			pressed = 1;
 		}
+  #endif
 
-	#elifdef USING_X11
-		 XNextEvent(display, &event);
+	#ifdef USING_X11
+		 XNextEvent(d, &e);
      XRefreshKeyboardMapping();
 
      char key_output;
