@@ -1,11 +1,17 @@
 /*
 #usage of following only if #define USING_WINDOW before including this header
+	(unsigned long)			RGB(int r, int g, int b);
+
+	(unsigned long)			default_foreground_color
+	(unsigned long)			default_background_color
+
   (int / use as bool) WindowCreationPossible()
                       //if you do #define ERROR_RESULTS_IN_EXIT it will exit instead of running without window stuff
                       WindowCreate(int Width, int Height)
                       WindowUpdate()
                       WindowWrite(int x, int y, int R, int G, int B)
                       //if you don't want to change the color use out of bunds RGB values
+											WindowClear()
                       WindowClose()
 #
 
@@ -128,6 +134,12 @@ void delay(int time){
         return;
       }
 			XNextEvent(d, &e);
+		#endif
+	}
+
+	void WindowClear(){
+		#ifdef USING_X11
+			XClearWindow(d,w);
 		#endif
 	}
 
