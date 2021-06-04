@@ -13,7 +13,7 @@
                       ScreenClear()
   (int / use as bool) SizeChanged
   (int / use as bool) ScreenUpdate
-                      DebugSettings()
+                      ConsoleScreenSettings()
 
 #private
   (int)               ScreenHeight
@@ -187,7 +187,7 @@ void ScreenClear(){
 int SizeChanged = 0;
 int ScreenUpdate = 1;
 
-void DebugSettings(){
+void ConsoleScreenSettings(){
   SizeChanged = 0;
   int selector = 0;
 
