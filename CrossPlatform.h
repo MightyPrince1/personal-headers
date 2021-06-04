@@ -31,9 +31,12 @@ extern "C"{
 #endif
 
 
-
 #include <time.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
 
 void delay(int time){
 	long pause;
@@ -80,16 +83,18 @@ void delay(int time){
 
 	#endif
   int WindowCreationPossible(){
-    if(d == NULL){
-      #undef USING_X11
-      printf("Can't open display! Using WSL?\n");
-      getchar();
-      #ifdef ERROR_RESULTS_IN_EXIT
-        exit(1);
-      #endif
+		#ifdef USING_X11
+    	if(d == NULL){
+      	#undef USING_X11
+      	printf("Can't open display! Using WSL?\n");
+      	#ifdef ERROR_RESULTS_IN_EXIT
+        	exit(1);
+      	#endif
 
-      return 0;
-    }
+				getchar();
+      	return 0;
+    	}
+		#endif
   }
 
 	void WindowCreate(int width, int height){
@@ -195,9 +200,6 @@ int KeyPressed(char input){
 		 }
 
 	#else
-
-		#include <stdlib.h>
-
 		if(WaitForInput == 0){
 			system("/bin/stty raw");
 		}
@@ -219,9 +221,6 @@ int KeyPressed(char input){
 
 
 void CrossSystem(char command[50]){
-	#include <stdlib.h>
-	#include <string.h>
-
 	char dir[3] = "dir";
 
 	if(strcmp(command,dir) == 0){
