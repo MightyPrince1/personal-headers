@@ -77,6 +77,7 @@ int RemoveOldOutput = 1;
 int RemoveOldOutputExecuted = 1;
 
 void DebugPrint(void) {
+    #if !(defined(WINDOW_INITIALISED) && defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
     RemoveOldOutputExecuted = 0;
     puts("----");
     for (int r = 0; r < ScreenHeight; ++r) {
@@ -88,6 +89,7 @@ void DebugPrint(void) {
         }
         putchar('\n');
     }
+    #endif
 }
 
 //by me
@@ -129,6 +131,7 @@ void screen(char mode[5],char AssignToType[10], int x, int y, int color){
     }
 
     if(strcmp(mode,print) == 0){
+      #if !(defined(WINDOW_INITIALISED) && defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
 
       ClearColor = ClearColor * (ClearColor > -1);
 
@@ -152,6 +155,7 @@ void screen(char mode[5],char AssignToType[10], int x, int y, int color){
 
     RemoveOldOutputExecuted = 1;
     }
+    #endif
 
     if(strcmp(mode,fill) == 0){
       for(int i = 0; i < ScreenHeight; i ++){
@@ -188,6 +192,8 @@ int SizeChanged = 0;
 int ScreenUpdate = 1;
 
 void ConsoleScreenSettings(){
+  #if !(defined(WINDOW_INITIALISED) && defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
+
   SizeChanged = 0;
   int selector = 0;
 
@@ -274,6 +280,7 @@ void ConsoleScreenSettings(){
   }
 
   ScreenUpdate = 1;
+  #endif
 }
 
 #ifdef __cplusplus

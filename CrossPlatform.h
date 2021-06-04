@@ -13,6 +13,8 @@
                       //if you don't want to change the color use out of bunds RGB values
 											WindowClear()
                       WindowClose()
+
+if you want no ConsoleScreen output while having a window do #define DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
 #
 
 											delay(in milliseconds)
@@ -110,6 +112,8 @@ void delay(int time){
 
       XMapRaised(d, w);
 		#endif
+
+		#define WINDOW_INITIALISED
 	}
 
   int PixelWidth = 1;
@@ -153,6 +157,12 @@ void delay(int time){
       XDestroyWindow(d, w);
 			XCloseDisplay(d);
 		#endif
+
+		#ifdef DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
+			#undef DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
+		#endif
+
+		#undef WINDOW_INITIALISED
 	}
 
 #endif
