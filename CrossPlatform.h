@@ -68,7 +68,8 @@ void delay(int time){
     int s;
     KeySym key;
     GC gc;
-
+	#endif
+	
 	#ifdef __WIN32
 		#include <windows.h>
 	#endif
