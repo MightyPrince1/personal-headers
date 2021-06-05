@@ -1,6 +1,6 @@
 /*
 #usage of following only if #define USING_WINDOW before including this header
-	(unsigned long)			RGBtoHex(int r, int g, int b);
+	(unsigned long)			CrossRGB(int r, int g, int b);
 
 	(unsigned long)			default_foreground_color
 	(unsigned long)			default_background_color
@@ -54,14 +54,6 @@ void delay(int time){
 
 	//crosswindow
 #ifdef USING_WINDOW
-  unsigned long RGBtoHex(int r, int g, int b){
- 	  return b + (g<<8) + (r<<16);
-  }
-	//for now in hex code
-	unsigned long default_foreground_color = 0x000000;
-	unsigned long default_background_color = 0xffffff;
-
-
 	#ifdef __linux__
     #define USING_X11
 		#include <X11/Xlib.h>
@@ -77,11 +69,21 @@ void delay(int time){
     KeySym key;
     GC gc;
 
-
-	#elif __WIN32
+	#ifdef __WIN32
 		#include <windows.h>
-
 	#endif
+
+	unsigned long CrossRGB(int r, int g, int b){
+		#ifdef __WIN32
+			return RGB(int r, int g, int b);
+		#endif
+ 	  return b + (g<<8) + (r<<16);
+  }
+
+	//for now in hex code
+	unsigned long default_foreground_color = 0x000000;
+	unsigned long default_background_color = 0xffffff;
+
   int WindowCreationPossible(){
 		#ifdef USING_X11
     	if(d == NULL){
@@ -131,9 +133,9 @@ void delay(int time){
       }
 
       if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
-        XSetForeground(d, gc, RGBtoHex(r,g,b));
+        XSetForeground(d, gc, CrossRGB(r,g,b));
       }
-		  XDrawRectangle(d,w,gc, x, y, PixelWidth, PixelHeight);
+		  XFillRectangle(d,w,gc, x, y, PixelWidth, PixelHeight);
     #endif
 	}
 
@@ -188,13 +190,9 @@ int KeyPressed(char input){
 
 	#ifdef USING_X11
 		 XNextEvent(d, &e);
-     XRefreshKeyboardMapping();
 
-     char key_output;
-
-		 if(event.type == KeyPress && XLookupString(&event.xkey, key_output, 255, &key,0) == 1){
-
-			 if(key_output == input){
+		 if (event.type == KeyPress){
+			 if(event.xkey.keycode == input){
 				 pressed = 1;
 			 }
 		 }
