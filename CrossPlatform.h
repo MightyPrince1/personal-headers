@@ -147,7 +147,7 @@ void delay(int time){
 				return;
 			}
 
-			XResizeWindow(d,w,x,y);
+			XResizeWindow(d,w,Width,Height);
 		#endif
 	}
 
