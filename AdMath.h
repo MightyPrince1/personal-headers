@@ -65,6 +65,10 @@ int DegreesToRadians(int degrees){
 	return degrees * M_PI / 180;
 }
 
+int NotNegative(int number){
+	return number * (number > 0);
+}
+
 //somehow broken
 int IntRoot(int number, int PowerOf){
 	int result = 0;

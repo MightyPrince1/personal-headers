@@ -8,9 +8,10 @@
   (int / use as bool) WindowCreationPossible()
                       //if you do #define ERROR_RESULTS_IN_EXIT it will exit instead of running without window stuff
                       WindowCreate(int Width, int Height)
-                      WindowUpdate()
+                      WindowWait()
                       WindowWrite(int x, int y, int R, int G, int B)
                       //if you don't want to change the color use out of bunds RGB values
+											WindowResize()
 											WindowClear()
                       WindowClose()
 
@@ -55,7 +56,6 @@ void delay(int time){
 	//crosswindow
 #ifdef USING_WINDOW
 	#ifdef __linux__
-    #define USING_X11
 		#include <X11/Xlib.h>
 		#include <X11/Xcms.h>
     #include <X11/Xutil.h>
@@ -69,7 +69,7 @@ void delay(int time){
     KeySym key;
     GC gc;
 	#endif
-	
+
 	#ifdef __WIN32
 		#include <windows.h>
 	#endif
@@ -101,10 +101,10 @@ void delay(int time){
   }
 
 	void WindowCreate(int width, int height){
-		#ifdef USING_X11
+		#ifdef __linux__
 			d = XOpenDisplay(NULL);
 
-      if(WindowCreationPossible == 0){
+      if(d == NULL){
         return;
       }
 
@@ -129,20 +129,31 @@ void delay(int time){
 
 	void WindowWrite(int x, int y, int r, int g, int b){
     #ifdef USING_X11
-      if(WindowCreationPossible == 0){
+      if(d == NULL){
         return;
       }
 
       if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
         XSetForeground(d, gc, CrossRGB(r,g,b));
       }
-		  XFillRectangle(d,w,gc, x, y, PixelWidth, PixelHeight);
+
+		  XDrawPoint(d,w,gc, x, y);
     #endif
 	}
 
-	void WindowUpdate(){
-		#ifdef USING_X11
-      if(WindowCreationPossible == 0){
+	void WindowResize(int Width, int Height){
+		#ifdef __linux__
+			if(d == NULL){
+				return;
+			}
+
+			XResizeWindow(d,w,x,y);
+		#endif
+	}
+
+	void WindowWait(){
+		#ifdef __linux__
+      if(d == NULL){
         return;
       }
 			XNextEvent(d, &e);
@@ -150,14 +161,18 @@ void delay(int time){
 	}
 
 	void WindowClear(){
-		#ifdef USING_X11
+		#ifdef __linux__
+			if(d == NULL){
+				return;
+			}
+
 			XClearWindow(d,w);
 		#endif
 	}
 
 	void WindowClose(){
-		#ifdef USING_X11
-      if(WindowCreationPossible == 0){
+		#ifdef __linux__
+      if(d == NULL){
         return;
       }
 
@@ -189,11 +204,13 @@ int KeyPressed(char input){
 		}
   #endif
 
-	#ifdef USING_X11
+	//currently not working
+	#if defined(USING_X11) && !defined(USING_TERMINAL_INPUT)
 		 XNextEvent(d, &e);
 
-		 if (event.type == KeyPress){
-			 if(event.xkey.keycode == input){
+		 if (e.type == KeyPress){
+			 if(e.xkey.keycode == input){
+				 PressedKey = input;
 				 pressed = 1;
 			 }
 		 }
@@ -246,4 +263,4 @@ void CrossSystem(char command[50]){
 }
 #endif
 
-#endif
+#endif /*CROSSPLATFORM_H*/
