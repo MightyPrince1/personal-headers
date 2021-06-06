@@ -124,7 +124,7 @@ void delay(int time){
   int PixelHeight = 1;
 
 	void WindowWrite(int x, int y, int r, int g, int b){
-    #ifdef USING_X11
+    #ifdef __linux__
 
       if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
         XSetForeground(d, gc, CrossRGB(r,g,b));
@@ -132,6 +132,16 @@ void delay(int time){
 
 		  XDrawPoint(d,w,gc, x, y);
     #endif
+	}
+
+	void WindowDisplayObjectRectangle(int x, int y, int lenght_along_x, int lenght_along_y, int r, int g, int b){
+		#ifdef __linux__
+			if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
+				XSetForeground(d, gc, CrossRGB(r,g,b));
+			}
+
+			XFillRectangle(d,w,gc,x,y,lenght_along_x,lenght_along_y);
+		#endif
 	}
 
 	void WindowResize(int Width, int Height){
