@@ -104,10 +104,6 @@ void delay(int time){
 		#ifdef __linux__
 			d = XOpenDisplay(NULL);
 
-      if(d == NULL){
-        return;
-      }
-
 			s = DefaultScreen(d);
 			w = XCreateSimpleWindow(d,RootWindow(d, s), 10, 10, width, height, 1,
 															default_background_color, default_foreground_color);
@@ -129,9 +125,6 @@ void delay(int time){
 
 	void WindowWrite(int x, int y, int r, int g, int b){
     #ifdef USING_X11
-      if(d == NULL){
-        return;
-      }
 
       if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
         XSetForeground(d, gc, CrossRGB(r,g,b));
@@ -143,9 +136,6 @@ void delay(int time){
 
 	void WindowResize(int Width, int Height){
 		#ifdef __linux__
-			if(d == NULL){
-				return;
-			}
 
 			XResizeWindow(d,w,Width,Height);
 		#endif
@@ -153,18 +143,13 @@ void delay(int time){
 
 	void WindowWait(){
 		#ifdef __linux__
-      if(d == NULL){
-        return;
-      }
+
 			XNextEvent(d, &e);
 		#endif
 	}
 
 	void WindowClear(){
 		#ifdef __linux__
-			if(d == NULL){
-				return;
-			}
 
 			XClearWindow(d,w);
 		#endif
@@ -172,9 +157,6 @@ void delay(int time){
 
 	void WindowClose(){
 		#ifdef __linux__
-      if(d == NULL){
-        return;
-      }
 
 			XFreeGC(d, gc);
       XDestroyWindow(d, w);
