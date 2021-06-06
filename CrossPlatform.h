@@ -144,6 +144,14 @@ void delay(int time){
 		#endif
 	}
 
+	void WindowDisplayObjectPolygon(){
+		if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
+			XSetForeground(d, gc, CrossRGB(r,g,b));
+		}
+
+
+	}
+
 	void WindowResize(int Width, int Height){
 		#ifdef __linux__
 
