@@ -2,17 +2,24 @@
 //all inputs that use angles are handled in degrees not radians
 int ProjectionHeight
 int ProjectionWidth
-int FoV
-int position[3] //x,y,z
-int horizontal_rotation
-int vertical_rotation
-float step_size
+int ProjectionMap[ProjectionHeight][ProjectionWidth][3]//3 for RGB
+
+DeleteProjectionMap()
+ResizeProjectionMap(x,y)
+
 int RenderDistance
 
-DeleteProjection()
-ResizeProjection(int x, int y)
+int FOV
 
-CalculateProjection()
+int position[3] //x,y,z
+
+int RotationHorizontal
+int RotoationVertical
+
+float d_CamPlayer
+float step_size
+
+ProjectionCalculate()
 */
 #ifndef PROJECTION_H
 #define PROJECTION_H
@@ -21,35 +28,29 @@ CalculateProjection()
 extern "C"{
 #endif
 
-
-#include "ConsoleScreen.h"
 #include "World.h"
 
-int ProjectionMap[28][60];
 
-int ProjectionHeight = 28;
-int ProjectionWidth = 60;
 
-//broken have to do memory allocation
-/*
-//3000 fps(on a Radeon 560)
+//from tstanisl (stackoverflow)
+int ProjectionHeight = 0;
+int ProjectionWidth = 0;
+int (**ProjectionMap)[3] = NULL;
 
-int (**ProjectionMap) = NULL;
-
-void DeleteProjection() {
+void DeleteProjectionMap() {
     if (ProjectionMap) {
         free(ProjectionMap[0]);
         free(ProjectionMap);
-        ProjectionMap = NULL;
+        ScreenSpace = NULL;
     }
 }
 
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 
-void ResizeProjection(int rows, int cols) {
+void ResizeProjectionMap(int rows, int cols) {
     // allocate new screen
-    int (**scr) = calloc(rows, sizeof *scr);
-    int (*data)[cols] = calloc(rows, sizeof *data);
+    int (**scr)[3] = calloc(rows, sizeof *scr);
+    int (*data)[cols][3] = calloc(rows, sizeof *data);
     for (int r = 0; r < rows; ++r)
         scr[r] = data[r];
 
@@ -57,10 +58,10 @@ void ResizeProjection(int rows, int cols) {
     int valid_rows = MIN(rows, ProjectionHeight);
     int valid_cols = MIN(cols, ProjectionWidth);
     for (int r = 0; r < valid_rows; ++r)
-        memcpy(scr[r], ProjectionMap[r], sizeof(int[valid_cols]));
+        memcpy(scr[r], ProjectionMap[r], sizeof(int[valid_cols][3]));
 
     // release old screen
-    DeleteProjection();
+    DeleteProjectionMap();
 
     // publish a new screen
     ProjectionMap = scr;
@@ -68,7 +69,84 @@ void ResizeProjection(int rows, int cols) {
     ProjectionWidth = cols;
 
 }
-*/
+
+
+
+int RenderDistance = 128;
+int FOV = 90;
+
+int position[3] = {0,0,0};
+
+int RotationHorizontal = 0;
+int RotoationVertical = 0;
+
+float d_CamPlayer = 1;
+float step_size = 1;
+
+//90 degrees
+void CalculateProjection(){
+  int FOV_v = FOV * ProjectionHeight / ProjectionWidth;
+
+  float l_screen_h = 2 * d_CamPlayer * tan(FOV);
+  float l_screen_v = 2 * d_CamPlayer * tan(FOV_v);
+
+  float diff_i_screen_h = l_screen_h / FOV / 2;
+  float diff_j_screen_v = l_screen_v / FOV_v / 2;
+
+  float m_rotation_horizontal = sin(DegreesToRadians(RotationHorizontal));
+  float m_rotation_vertical = sin(DegreesToRadians(RotoationVertical))
+
+  for(int i = -(ProjectionHeight / 2); i < (ProjectionHeight / 2); i ++){
+    for(int j = -(ProjectionWidth / 2); j < (ProjectionWidth / 2); j ++){
+      alpha_h = atan(i * diff_i_screen_h / d_CamPlayer);
+      alpha_v = atan(j * diff_j_screen_v / d_CamPlayer);
+
+      float vector_z = sin(alpha_v) * m_rotation_vertical;
+      float vector_transit_h = cos(alpha_v);
+
+      float vector_x = vector_transit_h * sin(1.5708 - alpha_h) * m_rotation_horizontal;
+      float vector_y = vector_transit_h * sin(1.5708 - alpha_v) * m_rotation_vertical;
+
+      int TravelledDistance = 0;
+
+      while(NothingHit == 1 && TravelledDistance < RenderDistance){
+        double x_calc;
+        double y_calc;
+        double z_calc;
+
+        long x_array = x_calc;
+        long y_array = y_calc;
+        long z_array = z_calc;
+
+        NothingHit = (WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]] < 1);
+
+        ProjectionMap[i][j][0] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][0];
+        ProjectionMap[i][j][1] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][1];
+        ProjectionMap[i][j][2] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][2];
+
+        x_calc = x_calc + vector_x * step_size;
+        y_calc = y_calc + vector_y * step_size;
+        z_calc = z_calc + vector_z * step_size;
+
+        TravelledDistance ++;
+    }
+  }
+}
+
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif
+
+
+//broken have to do memory allocation
+
+//3000 fps(on a Radeon 560)
+
+/*
 int RenderDistance = 128;
 
 
@@ -124,11 +202,4 @@ void CalculateProjection(){
       }
     }
   }
-}
-
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+}*/
