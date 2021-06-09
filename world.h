@@ -12,7 +12,7 @@ extern "C"{
 #include <stdlib.h>
 #include <string.h>
 
-int WorldMap[1000][1000][1000];
+int WorldMap[1000][1000][1000][3];
 
 int default_WorldState = 0;
 
