@@ -87,8 +87,7 @@ int RotoationVertical = 0;
 float d_CamPlayer = 1;
 float step_size = 1;
 
-//90 degrees
-void CalculateProjection(){
+void ProjectionCalculate(){
   int FOV_v = FOV * ProjectionHeight / ProjectionWidth;
 
   float l_screen_h = 2 * d_CamPlayer * tan(FOV);
