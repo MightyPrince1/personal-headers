@@ -12,6 +12,7 @@
                       WindowWrite(int x, int y, int R, int G, int B)
                       //if you don't want to change the color use out of bunds RGB values
 											WindowResize(x,y)
+											WindowUpdateSize()
 											WindowClear()
                       WindowClose()
 
@@ -100,6 +101,9 @@ void delay(int time){
 		#endif
   }
 
+	int WindowWidth = 0;
+	int WindowHeight = 0;
+
 	void WindowCreate(int width, int height){
 		#ifdef __linux__
 			d = XOpenDisplay(NULL);
@@ -110,7 +114,7 @@ void delay(int time){
 
 			XSelectInput(d, w, ExposureMask | ButtonPressMask | KeyPressMask);
 			XMapWindow(d, w);
-			XInternAtom(d, "WM_DELETE_WINDOW", False); 
+			XInternAtom(d, "WM_DELETE_WINDOW", False);
 
 
       //create GC
@@ -118,6 +122,9 @@ void delay(int time){
 
       XMapRaised(d, w);
 		#endif
+
+		WindowWidth = width;
+		WindowHeight = height;
 
 		#define WINDOW_INITIALISED
 	}
@@ -146,7 +153,7 @@ void delay(int time){
 		#endif
 	}
 
-	void WindowDisplayObjectPolygon(){
+	void WindowDisplayObjectPolygon(int r, int g, int b){
 		if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
 			XSetForeground(d, gc, CrossRGB(r,g,b));
 		}
@@ -158,6 +165,14 @@ void delay(int time){
 		#ifdef __linux__
 
 			XResizeWindow(d,w,Width,Height);
+		#endif
+	}
+
+	void WindowUpdateSize(){
+		#ifdef __linux__
+			if(WindowWidth != XGetWindowAttributes(d,w,width) || WindowHeight != XGetWindowAttributes(d,w,height)){
+				XResizeWindow(d,w,XGetWindowAttributes(d,w,width),XGetWindowAttributes(d,w,height));
+			}
 		#endif
 	}
 
