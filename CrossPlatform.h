@@ -12,6 +12,7 @@
                       WindowWrite(int x, int y, int R, int G, int B)
                       //if you don't want to change the color use out of bunds RGB values
 											WindowResize(x,y)
+	(int / use as bool) WindowSizeChanged
 											WindowUpdateSize()
 											WindowClear()
                       WindowClose()
@@ -168,10 +169,18 @@ void delay(int time){
 		#endif
 	}
 
+	int WindowSizeChanged = 0;
+
 	void WindowUpdateSize(){
+		WindowSizeChanged = 0;
 		#ifdef __linux__
-			if(WindowWidth != XGetWindowAttributes(d,w,width) || WindowHeight != XGetWindowAttributes(d,w,height)){
-				XResizeWindow(d,w,XGetWindowAttributes(d,w,width),XGetWindowAttributes(d,w,height));
+			XWindowAttributes wndAttr;
+
+			XGetWindowAttributes(d,w,wndAttr);
+
+			if(WindowWidth != wndAttr.width || WindowHeight != wndAttr.height){
+				XResizeWindow(d,w,wndAttr.width,wndAttr.heigth);
+				WindowSizeChanged = 1;
 			}
 		#endif
 	}
