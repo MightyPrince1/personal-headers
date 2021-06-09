@@ -14,12 +14,14 @@ int FOV
 int position[3] //x,y,z
 
 int RotationHorizontal
-int RotoationVertical
+int RotationVertical
 
 float d_CamPlayer
 float step_size
 
 ProjectionCalculate()
+
+ProjectionToWindow()
 */
 #ifndef PROJECTION_H
 #define PROJECTION_H
@@ -132,6 +134,17 @@ void CalculateProjection(){
     }
   }
 }
+
+#ifdef USING_WINDOW
+#include "CrossPlatform.h"
+void ProjectionToWindow(){
+  for(int i = 0; i < ProjectionHeight; i ++){
+    for(int j = 0; j < ProjectionWidth; j ++){
+      WindowWrite(i,j, ProjectionMap[i][j][0], ProjectionMap[i][j][1], ProjectionMap[i][j][2]);
+    }
+  }
+}
+#endif
 
 
 
