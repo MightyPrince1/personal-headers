@@ -104,8 +104,8 @@ void CalculateProjection(){
       float vector_z = sin(alpha_v) * m_rotation_vertical;
       float vector_transit_h = cos(alpha_v);
 
-      float vector_x = vector_transit_h * sin(1.5708 - alpha_h) * m_rotation_horizontal;
-      float vector_y = vector_transit_h * sin(1.5708 - alpha_v) * m_rotation_vertical;
+      float vector_x = vector_transit_h * sin(alpha_h) * m_rotation_horizontal;
+      float vector_y = vector_transit_h * cos(alpha_h) * m_rotation_horizontal;
 
       int TravelledDistance = 0;
 
@@ -120,9 +120,9 @@ void CalculateProjection(){
 
         NothingHit = (WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]] < 1);
 
-        ProjectionMap[i][j][0] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][0];
-        ProjectionMap[i][j][1] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][1];
-        ProjectionMap[i][j][2] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][2];
+        ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][0] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][0];
+        ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][1] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][1];
+        ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][2] = WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][2];
 
         x_calc = x_calc + vector_x * step_size;
         y_calc = y_calc + vector_y * step_size;
