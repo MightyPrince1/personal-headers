@@ -123,7 +123,7 @@ void CalculateProjection(){
         long y_array = y_calc;
         long z_array = z_calc;
 
-        NothingHit = (WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]] < 1);
+        NothingHit = (WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][0] < 1 && WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][1] < 1 && WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][2] < 1);
 
         ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][0] = WorldMap[NotNegative(x_array + position[0])][NotNegative(y_array + position[1])][NotNegative(z_array + position[2])][0];
         ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][1] = WorldMap[NotNegative(x_array + position[0])][NotNegative(y_array + position[1])][NotNegative(z_array + position[2])][1];
