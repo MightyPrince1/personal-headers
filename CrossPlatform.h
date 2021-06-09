@@ -11,7 +11,7 @@
                       WindowWait()
                       WindowWrite(int x, int y, int R, int G, int B)
                       //if you don't want to change the color use out of bunds RGB values
-											WindowResize()
+											WindowResize(x,y)
 											WindowClear()
                       WindowClose()
 
@@ -110,6 +110,8 @@ void delay(int time){
 
 			XSelectInput(d, w, ExposureMask | ButtonPressMask | KeyPressMask);
 			XMapWindow(d, w);
+			XInternAtom(d, "WM_DELETE_WINDOW", False); 
+
 
       //create GC
       gc = XCreateGC(d, w, 0, 0);
