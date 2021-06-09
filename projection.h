@@ -31,6 +31,8 @@ extern "C"{
 #endif
 
 #include "world.h"
+#include <math.h>
+#include "AdMath.h"
 
 
 
@@ -96,7 +98,7 @@ void CalculateProjection(){
   float diff_j_screen_v = l_screen_v / FOV_v / 2;
 
   float m_rotation_horizontal = sin(DegreesToRadians(RotationHorizontal));
-  float m_rotation_vertical = sin(DegreesToRadians(RotoationVertical))
+  float m_rotation_vertical = sin(DegreesToRadians(RotoationVertical));
 
   for(int i = -(ProjectionHeight / 2); i < (ProjectionHeight / 2); i ++){
     for(int j = -(ProjectionWidth / 2); j < (ProjectionWidth / 2); j ++){
