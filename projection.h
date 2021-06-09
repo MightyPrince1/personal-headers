@@ -45,7 +45,7 @@ void DeleteProjectionMap() {
     if (ProjectionMap) {
         free(ProjectionMap[0]);
         free(ProjectionMap);
-        ScreenSpace = NULL;
+        ProjectionMap = NULL;
     }
 }
 
@@ -102,8 +102,8 @@ void CalculateProjection(){
 
   for(int i = -(ProjectionHeight / 2); i < (ProjectionHeight / 2); i ++){
     for(int j = -(ProjectionWidth / 2); j < (ProjectionWidth / 2); j ++){
-      alpha_h = atan(i * diff_i_screen_h / d_CamPlayer);
-      alpha_v = atan(j * diff_j_screen_v / d_CamPlayer);
+      float alpha_h = atan(i * diff_i_screen_h / d_CamPlayer);
+      float alpha_v = atan(j * diff_j_screen_v / d_CamPlayer);
 
       float vector_z = sin(alpha_v) * m_rotation_vertical;
       float vector_transit_h = cos(alpha_v);
@@ -112,6 +112,7 @@ void CalculateProjection(){
       float vector_y = vector_transit_h * cos(alpha_h) * m_rotation_horizontal;
 
       int TravelledDistance = 0;
+      int NothingHit = 1;
 
       while(NothingHit == 1 && TravelledDistance < RenderDistance){
         double x_calc;
@@ -133,6 +134,7 @@ void CalculateProjection(){
         z_calc = z_calc + vector_z * step_size;
 
         TravelledDistance ++;
+      }
     }
   }
 }
