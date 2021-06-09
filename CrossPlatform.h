@@ -176,10 +176,10 @@ void delay(int time){
 		#ifdef __linux__
 			XWindowAttributes wndAttr;
 
-			XGetWindowAttributes(d,w,wndAttr);
+			XGetWindowAttributes(d,w,&wndAttr);
 
 			if(WindowWidth != wndAttr.width || WindowHeight != wndAttr.height){
-				XResizeWindow(d,w,wndAttr.width,wndAttr.heigth);
+				XResizeWindow(d,w,wndAttr.width,wndAttr.height);
 				WindowSizeChanged = 1;
 			}
 		#endif
