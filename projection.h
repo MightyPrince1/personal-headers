@@ -124,9 +124,9 @@ void ProjectionCalculate(){
 
         NothingHit = (WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][0] < 1 && WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][1] < 1 && WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][2] < 1);
 
-        ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][0] = WorldMap[NotNegative(x_array)][NotNegative(y_array)][NotNegative(z_array)][0];
-        ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][1] = WorldMap[NotNegative(x_array)][NotNegative(y_array)][NotNegative(z_array)][1];
-        ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][2] = WorldMap[NotNegative(x_array)][NotNegative(y_array)][NotNegative(z_array)][2];
+        ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][0] = WorldMap[InBunds(x_array,0,WorldHeight - 1)][InBunds(y_array,0,WordlWidth - 1)][InBunds(z_array,0,WorldLenght - 1)][0];
+        ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][1] = WorldMap[InBunds(x_array,0,WorldHeight - 1)][InBunds(y_array,0,WorldWidth - 1)][InBunds(z_array,0,WorldLenght - 1)][1];
+        ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][2] = WorldMap[InBunds(x_array,0,WordlHeight - 1)][InBunds(y_array,0,WorldWidth - 1)][InBunds(z_array,0,WorldLenght - 1)][2];
 
         x_calc = x_calc + vector_x * step_size;
         y_calc = y_calc + vector_y * step_size;
