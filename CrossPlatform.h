@@ -5,7 +5,7 @@
 	(unsigned long)			default_foreground_color
 	(unsigned long)			default_background_color
 
-  (int / use as bool) WindowCreationPossible()
+  (int / use as bool) WindowCreated()
                       //if you do #define ERROR_RESULTS_IN_EXIT it will exit instead of running without window stuff
                       WindowCreate(int Width, int Height)
                       WindowWait()
@@ -87,7 +87,7 @@ void delay(int time){
 	unsigned long default_foreground_color = 0x000000;
 	unsigned long default_background_color = 0xffffff;
 
-  int WindowCreationPossible(){
+  int WindowCreated(){
 		#ifdef __linux__
     	if(d == NULL){
       	printf("Can't open display! Using WSL?\n");
@@ -129,9 +129,6 @@ void delay(int time){
 		#define WINDOW_INITIALISED
 	}
 
-  int PixelWidth = 1;
-  int PixelHeight = 1;
-
 	void WindowWrite(int x, int y, int r, int g, int b){
     #ifdef __linux__
 
@@ -149,7 +146,7 @@ void delay(int time){
 				XSetForeground(d, gc, CrossRGB(r,g,b));
 			}
 
-			XFillRectangle(d,w,gc,x,y,lenght_along_x,lenght_along_y);
+			XFillRectangle(d,w,gc,x,y,lenght_along_y,lenght_along_x);
 		#endif
 	}
 
