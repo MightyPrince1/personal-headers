@@ -69,6 +69,10 @@ int NotNegative(int number){
 	return number * (number > 0);
 }
 
+int InBunds(int number, int lower_limit, int upper_limit){
+	return number * (number >= lower_limit && number <= upper_limit) + lower_limit * (number < lower_limit) + upper_limit * (number > upper_limit);
+}
+
 //somehow broken
 int IntRoot(int number, int PowerOf){
 	int result = 0;
