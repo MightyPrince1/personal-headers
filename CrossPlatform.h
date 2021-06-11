@@ -88,9 +88,8 @@ void delay(int time){
 	unsigned long default_background_color = 0xffffff;
 
   int WindowCreationPossible(){
-		#ifdef USING_X11
+		#ifdef __linux__
     	if(d == NULL){
-      	#undef USING_X11
       	printf("Can't open display! Using WSL?\n");
       	#ifdef ERROR_RESULTS_IN_EXIT
         	exit(1);
