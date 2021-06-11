@@ -22,6 +22,8 @@ float step_size
 ProjectionCalculate()
 
 ProjectionToWindow()
+
+ProjectionFitWindow()
 */
 #ifndef PROJECTION_H
 #define PROJECTION_H
@@ -145,6 +147,12 @@ void ProjectionToWindow(){
     for(int j = 0; j < ProjectionWidth; j ++){
       WindowWrite(i,j, ProjectionMap[i][j][0], ProjectionMap[i][j][1], ProjectionMap[i][j][2]);
     }
+  }
+}
+
+void ProjectionFitWindow(){
+  if(WindowSizeChanged == 1){
+    ResizeProjectionMap(WindowHeight, WindowWidth);
   }
 }
 #endif
