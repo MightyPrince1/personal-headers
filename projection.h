@@ -7,6 +7,8 @@ int ProjectionMap[ProjectionHeight][ProjectionWidth][3]//3 for RGB
 DeleteProjectionMap()
 ResizeProjectionMap(x,y)
 
+ProjectionMapInitialize(x,y);
+
 int RenderDistance
 
 int FOV
@@ -76,6 +78,10 @@ void ResizeProjectionMap(int rows, int cols) {
 
 }
 
+void ProjectionMapInitialize(int x, int y){
+  ResizeProjectionMap(x,y);
+  DefaultWorldMap();
+}
 
 
 int RenderDistance = 128;
@@ -92,8 +98,8 @@ float step_size = 1;
 void ProjectionCalculate(){
   int FOV_v = FOV * ProjectionHeight / ProjectionWidth;
 
-  float l_screen_h = 2 * d_CamPlayer * tan(FOV);
-  float l_screen_v = 2 * d_CamPlayer * tan(FOV_v);
+  float l_screen_h = 2 * d_CamPlayer * tan(FOV / 2);
+  float l_screen_v = 2 * d_CamPlayer * tan(FOV_v / 2);
 
   float diff_i_screen_h = l_screen_h / FOV / 2;
   float diff_j_screen_v = l_screen_v / FOV_v / 2;
@@ -124,7 +130,7 @@ void ProjectionCalculate(){
         long y_array = y_calc;
         long z_array = z_calc;
 
-        NothingHit = (WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][0] < 1 && WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][1] < 1 && WorldMap[x_array + position[0]][y_array + position[1]][z_array + position[2]][2] < 1);
+        NothingHit = (WorldMap[x_array][y_array][z_array][0] < 1 && WorldMap[x_array][y_array][z_array][1] < 1 && WorldMap[x_array][y_array][z_array][2] < 1);
 
         ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][0] = WorldMap[InBunds(x_array,0,WorldHeight - 1)][InBunds(y_array,0,WorldWidth - 1)][InBunds(z_array,0,WorldLenght - 1)][0];
         ProjectionMap[i + ProjectionHeight / 2][j + ProjectionWidth / 2][1] = WorldMap[InBunds(x_array,0,WorldHeight - 1)][InBunds(y_array,0,WorldWidth - 1)][InBunds(z_array,0,WorldLenght - 1)][1];

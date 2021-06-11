@@ -24,7 +24,8 @@ void DefaultWorldMap(){
   for(int i = 0; i < WorldHeight; i ++){
     for(int j = 0; j < WorldWidth; j ++){
       for(int k = 0; k < WorldLenght; k ++){
-        WorldMap[i][j][k][3] = default_WorldState;
+        for(int l = 0; l < 3; l ++)
+        WorldMap[i][j][k][l] = default_WorldState;
       }
     }
   }
