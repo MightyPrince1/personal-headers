@@ -11,9 +11,13 @@
 
 #include "CrossPlatform.h"
 
-void WindowVectorize()
+void WindowVectorize(){
 
-void WindowUpdate()
+}
+
+void WindowUpdate(){
+  
+}
 
 #ifdef __cplusplus
   }
