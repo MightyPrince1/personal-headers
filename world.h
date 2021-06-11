@@ -12,14 +12,18 @@ extern "C"{
 #include <stdlib.h>
 #include <string.h>
 
-int WorldMap[1000][1000][1000][3];
+int WorldHeight = 64;
+int WorldWidth = 64;
+int WorldLenght = 64;
+
+int WorldMap[64][64][64][3];
 
 int default_WorldState = 0;
 
 void DefaultWorldMap(){
-  for(int i = 0; i < 1000; i ++){
-    for(int j = 0; j < 1000; j ++){
-      for(int k = 0; k < 1000; k ++){
+  for(int i = 0; i < WorldHeight; i ++){
+    for(int j = 0; j < WorldWidth; j ++){
+      for(int k = 0; k < WorldLenght; k ++){
         WorldMap[i][j][k][3] = default_WorldState;
       }
     }
