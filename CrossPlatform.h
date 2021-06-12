@@ -74,6 +74,11 @@ void delay(int time){
 
 	#ifdef __WIN32
 		#include <windows.h>
+
+		#ifdef _MSC_VER
+		#    pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
+		#endif
+		
 	#endif
 
 	unsigned long CrossRGB(int r, int g, int b){
