@@ -11,9 +11,11 @@ Do not use it
   extern "C"{
 #endif
 
+//used by multiple headers
+#define ERROR_RESULTS_IN_EXIT
+
 //CrossPlatform
 #define USING_WINDOW
-#define ERROR_RESULTS_IN_EXIT
 #define USING_TERMINAL_INPUT
 
 //ConsoleScreen
