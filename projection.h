@@ -126,9 +126,9 @@ void ProjectionCalculate(){
       double z_calc = position[2];
 
       while(NothingHit == 1 && TravelledDistance < RenderDistance){
-        long x_array = x_calc;
-        long y_array = y_calc;
-        long z_array = z_calc;
+        long x_array = (long)x_calc;
+        long y_array = (long)y_calc;
+        long z_array = (long)z_calc;
 
         NothingHit = (WorldMap[x_array][y_array][z_array][0] = default_WorldState && WorldMap[x_array][y_array][z_array][1] = default_WorldState && WorldMap[x_array][y_array][z_array][2] = default_WorldState);
 
