@@ -57,7 +57,7 @@ void delay(int time){
 
 	//crosswindow
 #ifdef USING_WINDOW
-	#ifdef __linux__
+	#ifdef UNIX
 		#include <X11/Xlib.h>
 		#include <X11/Xcms.h>
     #include <X11/Xutil.h>
@@ -78,14 +78,15 @@ void delay(int time){
 		#ifdef _MSC_VER
 		#    pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
 		#endif
-		
+
 	#endif
 
 	unsigned long CrossRGB(int r, int g, int b){
 		#ifdef __WIN32
 			return RGB(int r, int g, int b);
+		#else
+ 	  	return b + (g<<8) + (r<<16);
 		#endif
- 	  return b + (g<<8) + (r<<16);
   }
 
 	//for now in hex code
@@ -93,7 +94,7 @@ void delay(int time){
 	unsigned long default_background_color = 0xffffff;
 
   int WindowCreated(){
-		#ifdef __linux__
+		#ifdef UNIX
     	if(d == NULL){
       	printf("Can't open display! Using WSL?\n");
       	#ifdef ERROR_RESULTS_IN_EXIT
@@ -110,7 +111,7 @@ void delay(int time){
 	int WindowHeight = 0;
 
 	void WindowCreate(int width, int height){
-		#ifdef __linux__
+		#ifdef UNIX
 			d = XOpenDisplay(NULL);
 
 			s = DefaultScreen(d);
@@ -135,7 +136,7 @@ void delay(int time){
 	}
 
 	void WindowWrite(int x, int y, int r, int g, int b){
-    #ifdef __linux__
+    #ifdef UNIX
 
       if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
         XSetForeground(d, gc, CrossRGB(r,g,b));
@@ -146,7 +147,7 @@ void delay(int time){
 	}
 
 	void WindowDisplayObjectRectangle(int x, int y, int lenght_along_x, int lenght_along_y, int r, int g, int b){
-		#ifdef __linux__
+		#ifdef UNIX
 			if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
 				XSetForeground(d, gc, CrossRGB(r,g,b));
 			}
@@ -157,14 +158,16 @@ void delay(int time){
 
 	void WindowDisplayObjectPolygon(int r, int g, int b){
 		if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
-			XSetForeground(d, gc, CrossRGB(r,g,b));
+			#ifdef UNIX
+				XSetForeground(d, gc, CrossRGB(r,g,b));
+			#endif
 		}
 
 
 	}
 
 	void WindowResize(int Width, int Height){
-		#ifdef __linux__
+		#ifdef UNIX
 
 			XResizeWindow(d,w,Width,Height);
 		#endif
@@ -174,7 +177,7 @@ void delay(int time){
 
 	void WindowUpdateSize(){
 		WindowSizeChanged = 0;
-		#ifdef __linux__
+		#ifdef UNIX
 			XWindowAttributes wndAttr;
 
 			XGetWindowAttributes(d,w,&wndAttr);
@@ -187,21 +190,21 @@ void delay(int time){
 	}
 
 	void WindowWait(){
-		#ifdef __linux__
+		#ifdef UNIX
 
 			XNextEvent(d, &e);
 		#endif
 	}
 
 	void WindowClear(){
-		#ifdef __linux__
+		#ifdef UNIX
 
 			XClearWindow(d,w);
 		#endif
 	}
 
 	void WindowClose(){
-		#ifdef __linux__
+		#ifdef UNIX
 
 			XFreeGC(d, gc);
       XDestroyWindow(d, w);
@@ -269,7 +272,7 @@ void CrossSystem(char command[50]){
 	if(strcmp(command,dir) == 0){
 		#ifdef __WIN32
 			system("dir");
-		#eldef __linux__
+		#eldef UNIX
 			system("ls");
 		#endif
 	}
