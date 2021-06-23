@@ -1,6 +1,7 @@
 /*
 #usage of following only if #define USING_WINDOW before including this header
 	(unsigned long)			CrossRGB(int r, int g, int b);
+	(unsigned long)			HexToRGB(int hex_value);
 
 	(unsigned long)			default_foreground_color
 	(unsigned long)			default_background_color
@@ -88,6 +89,13 @@ void delay(int time){
  	  	return b + (g<<8) + (r<<16);
 		#endif
   }
+
+	unsigned long HexToRGB(unsigned long hex_value){
+		int rgb_values[3];
+		sscanf(str, "%02x%02x%02x", &rgb_values[0], &rgb_values[1], &rgb_values[2]);
+
+		return *rgb_values;
+	}
 
 	//for now in hex code
 	unsigned long default_foreground_color = 0x000000;
