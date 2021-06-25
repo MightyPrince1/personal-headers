@@ -97,7 +97,7 @@ void delay(int time){
 		#else
 			sscanf(hex_value, "%02x%02x%02x", &rgb_values[0], &rgb_values[1], &rgb_values[2]);
 		#endif
-		
+
 		return *rgb_values;
 	}
 
@@ -279,24 +279,13 @@ int KeyPressed(char input){
 
 
 void CrossSystem(char command[50]){
-	char dir[3] = "dir";
-
-	if(strcmp(command,dir) == 0){
-		#ifdef __WIN32
-			system("dir");
-		#eldef UNIX
-			system("ls");
-		#endif
-	}
-	else{
-		#ifdef __WIN32
-			system("PowerShell");
-			system(command);
-			system("exit")
-		#else
-			system(command);
-    #endif
-	}
+	#ifdef __WIN32
+		system("PowerShell");
+		system(command);
+		system("exit")
+	#else
+		system(command);
+  #endif
 }
 
 
