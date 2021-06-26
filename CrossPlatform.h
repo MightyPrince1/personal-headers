@@ -110,7 +110,7 @@ void delay(int time){
     	if(d == NULL){
       	printf("Can't open display! Using WSL?\n");
       	#ifdef ERROR_RESULTS_IN_EXIT
-        	exit(1);
+        	exit("FAILED TO CREATE WINDOW");
       	#endif
 
 				getchar();
