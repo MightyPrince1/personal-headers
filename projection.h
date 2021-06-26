@@ -7,7 +7,13 @@ int ProjectionMap[ProjectionHeight][ProjectionWidth][3]//3 for RGB
 DeleteProjectionMap()
 ResizeProjectionMap(x,y)
 
+DeleteProjectionMapResults()
+ResizeProjectionMapResults(x,y)
+DefaultProjectionResults()
+
 ProjectionMapInitialize(x,y);
+
+ProjectionResize(x,y)
 
 int RenderDistance
 
@@ -78,14 +84,69 @@ void ResizeProjectionMap(int rows, int cols) {
 
 }
 
+int ProjectionMapResultsHeight = 0;
+int ProjectionMapResultsWidth = 0;
+float (**ProjectionMapResults)[3] = NULL;
+
+void DeleteProjectionMapResults(){
+  #ifndef  CALCULATE_INSTEAD_OF_RAM
+    if(ProjectionMapResults){
+      free(ProjectionMapResults[0]);
+      free(ProjectionMapResults);
+      ProjectionMapResults = NULL;
+    }
+  #endif
+}
+
+void ResizeProjectionMapResults(int rows, int cols){
+  #ifndef CALCULATE_INSTEAD_OF_RAM
+    // allocate new screen
+    int (**scr)[3] = calloc(rows, sizeof *scr);
+    int (*data)[cols][3] = calloc(rows, sizeof *data);
+    for (int r = 0; r < rows; ++r)
+        scr[r] = data[r];
+
+      // copy content of old screen to a new one
+    int valid_rows = MIN(rows, ProjectionHeight);
+    int valid_cols = MIN(cols, ProjectionWidth);
+    for (int r = 0; r < valid_rows; ++r)
+        memcpy(scr[r], ProjectionMap[r], sizeof(int[valid_cols][3]));
+
+      // release old screen
+    DeleteProjectionMapResults();
+
+    // publish a new screen
+    ProjectionMapResults = scr;
+    ProjectionHeight = rows;
+    ProjectionWidth = cols;
+  #endif
+
+}
+
+void DefaultProjectionResults(){
+  for(int i = 0; i < ProjectionMapResultsHeight; i ++){
+    for(int j = 0; j < ProjectionMapResultsWidth; j ++){
+      for(int k = 0; k < 3; k ++){
+      ProjectionMapResults[i][j][k] = NULL;
+      }
+    }
+  }
+}
+
 void ProjectionMapInitialize(int x, int y){
   ResizeProjectionMap(x,y);
   DefaultWorldMap();
 }
 
+void ProjectionResize(int x, int y){
+  ResizeProjectionMap(x,y);
+  ResizeProjectionMapResults(x,y);
+}
+
 
 int RenderDistance = 128;
 int FOV = 90;
+int FOV_v;
 
 int position[3] = {0,0,0};
 
@@ -95,31 +156,74 @@ int RotoationVertical = 0;
 float d_CamPlayer = 1;
 float step_size = 1;
 
+int FOV_old = FOV;
+int position_old[3] = {0,0,0};
+int RotationHorizontal_old = 0;
+int RotationVertical_old = 0;
+float d_CamPlayer_old = 1;
+float step_size_old = 1;
+
 void ProjectionCalculate(){
-  int FOV_v = FOV * ProjectionHeight / ProjectionWidth;
+  #ifndef CALCULATE_INSTEAD_OF_RAM
+  int calc_check = 0;
 
-  float l_screen_h = 2 * d_CamPlayer * tan(FOV / 2);
-  float l_screen_v = 2 * d_CamPlayer * tan(FOV_v / 2);
+  if(FOV_old != FOV  || d_CamPlayer_old != d_CamPlayer || RotationHorizontal_old != RotationHorizontal || RotationVertical_old != RotationVertical || ProjectionMapResults == NULL){
+    calc_check = 1;
+    #endif
 
-  float diff_i_screen_h = l_screen_h / FOV / 2;
-  float diff_j_screen_v = l_screen_v / FOV_v / 2;
+    FOV_v = FOV * ProjectionHeight / ProjectionWidth;
 
-  float m_rotation_horizontal = sin(DegreesToRadians(RotationHorizontal));
-  float m_rotation_vertical = sin(DegreesToRadians(RotoationVertical));
+    float l_screen_h = 2 * d_CamPlayer * tan(FOV / 2);
+    float l_screen_v = 2 * d_CamPlayer * tan(FOV_v / 2);
+
+    float diff_i_screen_h = l_screen_h / FOV / 2;
+    float diff_j_screen_v = l_screen_v / FOV_v / 2;
+
+    float m_rotation_horizontal = sin(DegreesToRadians(RotationHorizontal));
+    float m_rotation_vertical = sin(DegreesToRadians(RotoationVertical));
+
+  #ifndef CALCULATE_INSTEAD_OF_RAM
+  }
+  #endif
+
 
   for(int i = -(ProjectionHeight / 2); i < (ProjectionHeight / 2); i ++){
     for(int j = -(ProjectionWidth / 2); j < (ProjectionWidth / 2); j ++){
-      float alpha_h = atan(i * diff_i_screen_h / d_CamPlayer);
-      float alpha_v = atan(j * diff_j_screen_v / d_CamPlayer);
 
-      float vector_z = sin(alpha_v) * m_rotation_vertical;
-      float vector_transit_h = cos(alpha_v);
+      #ifndef CALCULATE_INSTEAD_OF_RAM
+      if(calc_check == 1){
+      #endif
 
-      float vector_x = vector_transit_h * sin(alpha_h) * m_rotation_horizontal;
-      float vector_y = vector_transit_h * cos(alpha_h) * m_rotation_horizontal;
+        float alpha_h = atan(i * diff_i_screen_h / d_CamPlayer);
+        float alpha_v = atan(j * diff_j_screen_v / d_CamPlayer);
 
-      int TravelledDistance = 0;
-      int NothingHit = 1;
+        float vector_z = sin(alpha_v) * m_rotation_vertical;
+        float vector_transit_h = cos(alpha_v);
+
+        float vector_x = vector_transit_h * sin(alpha_h) * m_rotation_horizontal;
+        float vector_y = vector_transit_h * cos(alpha_h) * m_rotation_horizontal;
+
+        int TravelledDistance = 0;
+        int NothingHit = 1;
+
+
+
+        #ifndef CALCULATE_INSTEAD_OF_RAM
+        if(ProjectionMapResults[[i + ProjectionMapResultsHeight / 2][j + ProjectionMapResultsWidth / 2] == NULL){
+          ProjectionMapResults[0] = vector_x;
+          ProjectionMapResults[1] = vector_y;
+          ProjectionMapResults[2] = vecotr_z;
+        }
+        #endif
+
+      #ifndef CALCULATE_INSTEAD_OF_RAM
+      }
+      else{
+        float vector_x = ProjectionMapResults[0];
+        float vector_y = ProjectionMapResults[1];
+        float vector_z = projectionMapResults[2];
+      }
+      #endif
 
       double x_calc = position[0];
       double y_calc = position[1];
