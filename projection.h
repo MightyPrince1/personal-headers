@@ -167,7 +167,7 @@ void ProjectionCalculate(){
   #ifndef CALCULATE_INSTEAD_OF_RAM
   int calc_check = 0;
 
-  if(FOV_old != FOV  || d_CamPlayer_old != d_CamPlayer || RotationHorizontal_old != RotationHorizontal || RotationVertical_old != RotationVertical || ProjectionMapResults == NULL){
+  if(FOV_old != FOV  || d_CamPlayer_old != d_CamPlayer || ProjectionMapResults == NULL){
     calc_check = 1;
     #endif
 
@@ -219,9 +219,16 @@ void ProjectionCalculate(){
       #ifndef CALCULATE_INSTEAD_OF_RAM
       }
       else{
-        float vector_x = ProjectionMapResults[0];
-        float vector_y = ProjectionMapResults[1];
-        float vector_z = projectionMapResults[2];
+        if(RotationHorizontal_old != RotationHorizontal || RotationVertical_old != RotationVertical){
+          float vector_x = ProjectionMapResults[0] * sin(DegreesToRadians(RotationHorizontal));
+          float vector_y = ProjectionMapResults[1] * sin(DegreesToRadians(RotationHorizontal));
+          float vector_z = projectionMapResults[2] * sin(DegreesToRadians(RotoationVertical));
+        }
+        else{
+          float vector_x = ProjectionMapResults[0];
+          float vector_y = ProjectionMapResults[1];
+          float vector_z = ProjectionMapResults[2];
+        }
       }
       #endif
 
