@@ -21,6 +21,9 @@ Do not use it
 //ConsoleScreen
 #define DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
 
+//projection
+#define CALCULATE_INSTEAD_OF_RAM
+
 #ifdef __cplusplus
   }
 #endif
