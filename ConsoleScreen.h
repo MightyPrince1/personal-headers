@@ -77,7 +77,10 @@ int RemoveOldOutput = 1;
 int RemoveOldOutputExecuted = 1;
 
 void DebugPrint(void) {
-    #if !(defined(WINDOW_INITIALISED) && defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
+  #if defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
+    if(!(defined(WINDOW_INITIALISED)){
+  #endif
+
     RemoveOldOutputExecuted = 0;
     puts("----");
     for (int r = 0; r < ScreenHeight; ++r) {
@@ -89,13 +92,19 @@ void DebugPrint(void) {
         }
         putchar('\n');
     }
+
+    #if defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
+      }
     #endif
 }
 
 //by me
-char background_occupancy[101] = {' ','@','@','@','@','@','@','W','W','M','M','M','M','M','M','M','M','B','Q','G','P','N','N','&','O','D','g','S','E','m','w','A','8','Z','K','H','6','9','X','C','p','b','q','5','U','2','O','e','3','a','V','V','F','4','h','k','o','s','y','u','n','n','c','T','z','z','7','J','x','L','L','v','?','?','=','f','t','t','j',')','(','(','r','r','i','^','/','*','_',';',';',':','-',',','.','.',' ',' ',' ',' '};
+char background_occupancy[101] = {'@','@','@','@','@','@','@','W','W','M','M','M','M','M','M','M','M','B','Q','G','P','N','N','&','O','D','g','S','E','m','w','A','8','Z','K','H','6','9','X','C','p','b','q','5','U','2','O','e','3','a','V','V','F','4','h','k','o','s','y','u','n','n','c','T','z','z','7','J','x','L','L','v','?','?','=','f','t','t','j',')','(','(','r','r','i','^','/','*','_',';',';',':','-',',','.','.',' ',' ',' ',' '};
 
 void screen(char mode[5],char AssignToType[10], int x, int y, int color){
+  #if defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
+    if(!(defined(WINDOW_INITIALISED)){
+  #endif
 
   int RunFunction = 1;
 
@@ -131,7 +140,6 @@ void screen(char mode[5],char AssignToType[10], int x, int y, int color){
     }
 
     if(strcmp(mode,print) == 0){
-      #if !(defined(WINDOW_INITIALISED) && defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
 
       ClearColor = ClearColor * (ClearColor > -1);
 
@@ -147,7 +155,7 @@ void screen(char mode[5],char AssignToType[10], int x, int y, int color){
 
             text_color(ScreenSpace[i][j][0] * !(ScreenSpace[i][j][0] < 0) + ClearColor * (ScreenSpace[i][j][0] < 0));
             background_color(ScreenSpace[i][j][1] * !(ScreenSpace[i][j][1] < 0) + ClearColor * (ScreenSpace[i][j][1] < 0));
-            printf("  ");
+            printf("%c%c",background_occupancy[ScreenSpace[i][j][2]]);
             reset_text();
           }
         printf("\n");
@@ -155,7 +163,6 @@ void screen(char mode[5],char AssignToType[10], int x, int y, int color){
 
     RemoveOldOutputExecuted = 1;
     }
-    #endif
 
     if(strcmp(mode,fill) == 0){
       for(int i = 0; i < ScreenHeight; i ++){
@@ -177,6 +184,9 @@ void screen(char mode[5],char AssignToType[10], int x, int y, int color){
       }
     }
   }
+  #if defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
+    }
+  #endif
 }
 
 void ScreenPrint(){
@@ -192,7 +202,9 @@ int SizeChanged = 0;
 int ScreenUpdate = 1;
 
 void ConsoleScreenSettings(){
-  #if !(defined(WINDOW_INITIALISED) && defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
+  #if defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
+    if(!(defined(WINDOW_INITIALISED)){
+  #endif
 
   SizeChanged = 0;
   int selector = 0;
@@ -280,6 +292,9 @@ void ConsoleScreenSettings(){
   }
 
   ScreenUpdate = 1;
+
+  #if defined(DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW))
+    }
   #endif
 }
 
