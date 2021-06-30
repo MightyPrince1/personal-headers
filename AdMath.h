@@ -4,7 +4,6 @@
 
 (int) 	IsEven(number)
 (int)		NegativeToPositive(number)
-(int) 	power(number,PowerOf)
 (int)	 	min(a,b)
 (int) 	max(a,b)
 (float) p_theorum(a,b)
@@ -29,16 +28,6 @@ int IsEven(int number){
 
 int NegativeToPositive(int number){
 	return -number * (number < 0) + number * !(number < 0);
-}
-
-int power(int number, int PowerOf){
-	int result = 1;
-
-	for(int i = 0; i < NegativeToPositive(PowerOf); i ++){
-		result = result * number;
-	}
-
-	return (1/result) * (PowerOf < 0) + result * !(PowerOf < 0);
 }
 
 
