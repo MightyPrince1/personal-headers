@@ -54,6 +54,10 @@ void resize(int &array, int array_size_now[], array_size_wanted[]){
 		return;
 	}
 
+	if(*array_size_now == *array_size_wanted){
+		return;
+	}
+
 	int n_dimensions =  min(LenghtOfArray(*array_size_now), LenghtOfArray(*array_size_wanted));
 	int n_dimensions_wanted = LenghtOfArray(*array_size_wanted);
 	int n_dimensions_now = LenghtOfArray(*array_size_now);
