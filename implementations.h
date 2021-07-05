@@ -84,7 +84,7 @@ float CircleCircumference(int r){
     for(int j = 0; j < y_f; j ++){
       float tmp = p_theorum(r - i, j);
 
-      fract[i][j] = (2 * 3.141592653589793 * tmp * (tmp <= r)) + (-1 * tmp > r);
+      fract[i][j] = (6.283185307179586 * tmp * (tmp <= r)) + (-1 * tmp > r);
     }
   }
   //apply
@@ -104,7 +104,7 @@ float CircleCircumference(int r){
 
   for(int i = x_f; i < (2 * r - x_f) + 1; i ++){
     for(int j = x_f; j < (2 * r - x_f) + 1; j ++){
-      circle[i][j] = 2 * 3.141592653589793 * p_theorum(r - i, j);
+      circle[i][j] = 6.283185307179586 * p_theorum(r - i, j);
     }
   }
 
