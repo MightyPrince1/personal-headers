@@ -41,7 +41,6 @@ extern "C"{
 #endif
 
 #include "world.h"
-#include <math.h>
 #include "AdMath.h"
 
 
