@@ -97,15 +97,15 @@ int RoundIntervals(int number, int interval){
 		return 0;
 	}
 
-	int mulitplier = 0;
+	int multiplier = 0;
 
 	while(number < 0 * (number > interval * multiplier) + number > 0 * (number < interval * multiplier)){
 		multiplier = multiplier + (number > 0) - (number < 0);
 	}
 
-	int InBetween = (number < 0) * (number > (interval * mulitplier)) + (number > 0) * (number > (interval * mulitplier));
+	int InBetween = (number < 0) * (number > (interval * multiplier)) + (number > 0) * (number > (interval * multiplier));
 
-	multiplier = mulitplier * (InBetween == 0 && !(number < ((interval * multiplier) + (interval * multiplier)) / 2)) + multiplier * !(InBetween == 0 && !(number < ((interval * multiplier) + (interval * multiplier)) / 2))*(multiplier + (number > 0) - (number < 0));
+	multiplier = multiplier * (InBetween == 0 && !(number < ((interval * multiplier) + (interval * multiplier)) / 2)) + multiplier * !(InBetween == 0 && !(number < ((interval * multiplier) + (interval * multiplier)) / 2))*(multiplier + (number > 0) - (number < 0));
 
 	return interval * multiplier;
 }

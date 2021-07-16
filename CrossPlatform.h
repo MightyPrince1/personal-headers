@@ -40,6 +40,7 @@ extern "C"{
 #include <stdlib.h>
 #include <string.h>
 
+#include "AdMath.h"
 
 
 void delay(int time){
