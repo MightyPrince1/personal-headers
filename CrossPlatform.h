@@ -86,7 +86,7 @@ void delay(int time){
 		#ifdef __WIN32
 			return RGB(int r, int g, int b);
 		#else
- 	  	return b + (g<<8) + (r<<16);
+ 	  	return InBounds(b,0,255) + (InBounds(g,0,255)<<8) + (InBounds(r,0,255)<<16);
 		#endif
   }
 
@@ -105,7 +105,7 @@ void delay(int time){
 	unsigned long default_foreground_color = 0x000000;
 	unsigned long default_background_color = 0xffffff;
 
-   DisplayExists(){
+   int DisplayExists(){
 		#ifdef UNIX
     	if(d == NULL){
       	printf("Can't open display! Using WSL?\n");
@@ -116,6 +116,8 @@ void delay(int time){
 				getchar();
       	return 0;
     	}
+
+			return 1;
 		#endif
   }
 
@@ -149,10 +151,7 @@ void delay(int time){
 
 	void WindowWrite(int x, int y, int r, int g, int b){
     #ifdef UNIX
-
-      if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
-        XSetForeground(d, gc, CrossRGB(r,g,b));
-      }
+      XSetForeground(d, gc, CrossRGB(r,g,b));
 
 		  XDrawPoint(d,w,gc, x, y);
     #endif
@@ -160,9 +159,7 @@ void delay(int time){
 
 	void WindowDisplayObjectRectangle(int x, int y, int lenght_along_x, int lenght_along_y, int r, int g, int b){
 		#ifdef UNIX
-			if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
-				XSetForeground(d, gc, CrossRGB(r,g,b));
-			}
+			XSetForeground(d, gc, CrossRGB(r,g,b));
 
 			XFillRectangle(d,w,gc,x,y,lenght_along_y,lenght_along_x);
 		#endif
