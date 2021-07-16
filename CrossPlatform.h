@@ -6,7 +6,7 @@
 	(unsigned long)			default_foreground_color
 	(unsigned long)			default_background_color
 
-  (int / use as bool) WindowCreated()
+  (int / use as bool) DisplayExists()
                       //if you do #define ERROR_RESULTS_IN_EXIT it will exit instead of running without window stuff
                       WindowCreate(int Width, int Height)
                       WindowWait()
@@ -90,7 +90,7 @@ void delay(int time){
 		#endif
   }
 
-	unsigned long HexToRGB(unsigned long hex_value){
+	/*unsigned long HexToRGB(unsigned long hex_value){
 		int rgb_values[3];
 		#ifdef __WIN32
 			sscanf(hex_value, "%02x%02x%02x", &rgb_values[2], &rgb_values[1], &rgb_values[0]);
@@ -99,18 +99,18 @@ void delay(int time){
 		#endif
 
 		return *rgb_values;
-	}
+	}*/
 
 	//for now in hex code
 	unsigned long default_foreground_color = 0x000000;
 	unsigned long default_background_color = 0xffffff;
 
-  int WindowCreated(){
+   DisplayExists(){
 		#ifdef UNIX
     	if(d == NULL){
       	printf("Can't open display! Using WSL?\n");
       	#ifdef ERROR_RESULTS_IN_EXIT
-        	exit(1);
+        	exit("FAILED TO CREATE WINDOW");
       	#endif
 
 				getchar();
@@ -221,10 +221,6 @@ void delay(int time){
 			XFreeGC(d, gc);
       XDestroyWindow(d, w);
 			XCloseDisplay(d);
-		#endif
-
-		#ifdef DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
-			#undef DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
 		#endif
 
 		#undef WINDOW_INITIALISED

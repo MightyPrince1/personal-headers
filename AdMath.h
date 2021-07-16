@@ -7,8 +7,12 @@
 (int)	 	min(a,b)
 (int) 	max(a,b)
 (float) p_theorum(a,b)
-(double)RoundBetween(int number, lower, upper)
-(int)		RoundIntervals(int number, int interval);
+(int)		RadiansToDegrees(radians)
+(int)		DegreesToRadians(radians)
+(int)		NotNegative(number)
+(int)		InBounds(number, lower likit, upper limit)
+(int)		RoundBetween(number, lower,upper)
+(int)		RoundIntervals(number, interval)
 (int)		IntRoot(number,RootOf)	//broken
 
 */
@@ -35,20 +39,6 @@ int IsEven(int number){
 int NegativeToPositive(int number){
 	return -number * (number < 0) + number * !(number < 0);
 }
-
-
-
-//redundant !!!
-/*int power(int number, int PowerOf){
-	int result = 1;
-
-	for(int i = 0; i < NegativeToPositive(PowerOf); i ++){
-		result = result * number;
-	}
-
-	return (1/result) * (PowerOf < 0) + result * !(PowerOf < 0);
-}*/
-
 
 
 int min(int a,int b){
@@ -88,9 +78,7 @@ int NotNegative(int number){
 	return number * (number > 0);
 }
 
-
-
-int InBunds(int number, int lower_limit, int upper_limit){
+int InBounds(int number, int lower_limit, int upper_limit){
 	return number * (number >= lower_limit && number <= upper_limit) + lower_limit * (number < lower_limit) + upper_limit * (number > upper_limit);
 }
 
