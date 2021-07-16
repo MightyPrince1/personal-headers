@@ -29,9 +29,7 @@ extern "C"{
 
 
 int IsEven(int number){
-	int remainder = number % 2;
-
-	return 1 * (remainder == 0);
+	return 1 * (number % 2 == 0);
 }
 
 
@@ -75,7 +73,7 @@ int DegreesToRadians(int degrees){
 
 
 int NotNegative(int number){
-	return number * (number > 0);
+	return number * (number >= 0) + -number * (number < 0);
 }
 
 int InBounds(int number, int lower_limit, int upper_limit){
