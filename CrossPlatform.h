@@ -21,7 +21,7 @@
 if you want no ConsoleScreen output while having a window do #define DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
 #
 
-											delay(in milliseconds)
+											DelayMS(in milliseconds)
 	(int / use as bool) WaitForInput
 	(char)							PressedKey
 											KeyPressed()
@@ -43,7 +43,7 @@ extern "C"{
 #include "AdMath.h"
 
 
-void delay(int time){
+void DelayMS(int time){
 	long pause;
 
 	clock_t time1,time2;
