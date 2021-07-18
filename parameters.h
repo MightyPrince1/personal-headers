@@ -15,6 +15,7 @@ Do not use it
 #define ERROR_RESULTS_IN_EXIT
 
 //CrossPlatform
+#define NO_ACRONYM_INPUT
 #define USING_WINDOW
 #define USING_TERMINAL_INPUT
 
