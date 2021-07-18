@@ -11,7 +11,8 @@
 (int)		DegreesToRadians(radians)
 (int)		NotNegative(number)
 (int)		InBounds(number, lower likit, upper limit)
-(int)		RoundBetween(number, lower,upper)
+(int)		PositiveNegativeBool(branchless_condition)
+(double)RoundBetween(number, lower,upper)
 (int)		RoundIntervals(number, interval)
 (int)		IntRoot(number,RootOf)	//broken
 
@@ -81,6 +82,11 @@ int InBounds(int number, int lower_limit, int upper_limit){
 }
 
 
+int PositiveNegativeBool(int branchless_condition){
+	return (branchless_condition == 1) + -1 * (branchless_condition == 0);
+}
+
+
 
 double RoundBetween(double number, double lower, double upper){
 	while(number > upper){
@@ -93,21 +99,9 @@ double RoundBetween(double number, double lower, double upper){
 
 
 int RoundIntervals(int number, int interval){
-	if(interval == 0 || number == 0){
-		return 0;
-	}
+	int multiplier = number / (interval + (interval == 0)) + 0.5 * PositiveNegativeBool(number > 0);
 
-	int multiplier = 0;
-
-	while(number < 0 * (number > interval * multiplier) + number > 0 * (number < interval * multiplier)){
-		multiplier = multiplier + (number > 0) - (number < 0);
-	}
-
-	int InBetween = (number < 0) * (number > (interval * multiplier)) + (number > 0) * (number > (interval * multiplier));
-
-	multiplier = multiplier * (InBetween == 0 && !(number < ((interval * multiplier) + (interval * multiplier)) / 2)) + multiplier * !(InBetween == 0 && !(number < ((interval * multiplier) + (interval * multiplier)) / 2))*(multiplier + (number > 0) - (number < 0));
-
-	return interval * multiplier;
+	return (interval * multiplier) * (interval != 0);
 }
 
 
