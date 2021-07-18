@@ -2,19 +2,19 @@
 #compiler agruments:
 -lm
 
-(int) 	IsEven(number)
-(int)		NegativeToPositive(number)
-(int)	 	min(a,b)
-(int) 	max(a,b)
-(float) p_theorum(a,b)
-(int)		RadiansToDegrees(radians)
-(int)		DegreesToRadians(radians)
-(int)		NotNegative(number)
-(int)		InBounds(number, lower likit, upper limit)
-(int)		PositiveNegativeBool(branchless_condition)
-(double)RoundBetween(number, lower,upper)
-(double)RoundIntervals(number, interval)
-(int)		IntRoot(number,RootOf)	//broken
+(int) 							IsEven(number)
+(double)						NegativeToPositive(number)
+(double)					 	min(a,b)
+(double)					 	max(a,b)
+(double) 						p_theorum(a,b)
+(double)						RadiansToDegrees(radians)
+(double)						DegreesToRadians(degrees)
+(double)						NotNegative(number)
+(double)						InBounds(number, lower limit, upper limit)
+(int / use as bool)	PositiveNegativeBool(branchless_condition)
+(double)						RoundBetween(number, lower,upper)
+(double)						RoundIntervals(number, interval)
+(int)								IntRoot(number,RootOf)	//broken
 
 */
 
@@ -30,60 +30,64 @@ extern "C"{
 
 
 int IsEven(int number){
-	return 1 * (number % 2 == 0);
+	return (number % 2 == 0);
 }
 
 
 
-int NegativeToPositive(int number){
+double NegativeToPositive(double number){
 	return -number * (number < 0) + number * !(number < 0);
 }
 
 
-int min(int a,int b){
+
+double min(double a,double b){
   return a * (a <= b) + b * (b < a);
 }
 
 
 
-int max(int a,int b){
+double max(double a,double b){
   return a * (a >= b) + b * (b > a);;
 }
 
 
 
-float p_theorum(float a,float b){
+double p_theorum(double a,double b){
 
-  float tmp = pow(a,2) + pow(b,2);
+  double tmp = pow(a,2) + pow(b,2);
 
   return sqrt(tmp);
 }
 
 
 
-int RadiansToDegrees(int radians){
+double RadiansToDegrees(double radians){
 	return radians * 180 / M_PI;
 }
 
 
 
-int DegreesToRadians(int degrees){
+double DegreesToRadians(double degrees){
 	return degrees * M_PI / 180;
 }
 
 
 
-int NotNegative(int number){
+double NotNegative(double number){
 	return number * (number >= 0) + -number * (number < 0);
 }
 
-int InBounds(int number, int lower_limit, int upper_limit){
+
+
+double InBounds(double number, double lower_limit, double upper_limit){
 	return number * (number >= lower_limit && number <= upper_limit) + lower_limit * (number < lower_limit) + upper_limit * (number > upper_limit);
 }
 
 
+
 int PositiveNegativeBool(int branchless_condition){
-	return (branchless_condition == 1) + -1 * (branchless_condition == 0);
+	return (branchless_condition == 1) + -(branchless_condition == 0);
 }
 
 
@@ -98,7 +102,7 @@ double RoundBetween(double number, double lower, double upper){
 
 
 
-double RoundIntervals(int number, int interval){
+double RoundIntervals(int number, usigned int interval){
 	int multiplier = number / (interval + (interval == 0)) + 0.5 * PositiveNegativeBool(number > 0);
 
 	return (interval * multiplier) * (interval != 0);
