@@ -1,4 +1,12 @@
 /*
+											DelayMS(in milliseconds)
+											delay(time, time_type)
+													time_types
+														-MIN or MINUTE
+														-SEC or SECOND
+														-MS or MILLISECOND
+														#usage of full words only if #define NO_ACRONYM_INPUT
+
 #usage of following only if #define USING_WINDOW before including this header
 	(unsigned long)			CrossRGB(int r, int g, int b);
 	(unsigned long)			HexToRGB(int hex_value);
@@ -20,8 +28,6 @@
 
 if you want no ConsoleScreen output while having a window do #define DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
 #
-
-											DelayMS(in milliseconds)
 	(int / use as bool) WaitForInput
 	(char)							PressedKey
 											KeyPressed()
@@ -53,6 +59,33 @@ void DelayMS(int time){
 	while( (time1-time2) < pause ){
 		time1 = clock();
 	}
+}
+
+void delay(int time, char time_type){
+	#ifndef NO_ACRONYM_INPUT
+		char MIN[] = "MIN";
+		char SEC[] = "SEC";
+		char MS[] = "MS";
+	#else
+		char MINUTE[] = "MINUTE";
+		char SECOND[] = "SECOND";
+		char MILLISECOND[] = "MILLISECOND"
+	#endif
+
+	long pause;
+
+	clock_t time1,time2;
+	#ifndef NO_ACRONYM_INPUT
+		pause = time * (CLOCKS_PER_SEC / 0.1 *(strcmp(time_type, MIN) == 0) + 1 * (strcmp(time_type, SEC) == 0) + 1000 * (strcmp(time_type, MS) == 0));
+	#else
+		pause = time * (CLOCKS_PER_SEC / 0.1 *(strcmp(time_type, MINUTE) == 0) + 1 * (strcmp(time_type, SECOND) == 0) + 1000 * (strcmp(time_type, MILLISECOND) == 0));
+	#endif
+	time2 = time1 = clock();
+
+	while( (time1-time2) < pause ){
+		time1 = clock();
+	}
+
 }
 
 
