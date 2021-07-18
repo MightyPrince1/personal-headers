@@ -14,20 +14,20 @@
 	(unsigned long)			default_foreground_color
 	(unsigned long)			default_background_color
 
+#if you want no ConsoleScreen output while having a window do #define DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
+
   (int / use as bool) DisplayExists()
                       //if you do #define ERROR_RESULTS_IN_EXIT it will exit instead of running without window stuff
                       WindowCreate(int Width, int Height)
                       WindowWait()
                       WindowWrite(int x, int y, int R, int G, int B)
-                      //if you don't want to change the color use out of bunds RGB values
+                      //if you don't want to change the color use out of bounds RGB values
 											WindowResize(x,y)
 	(int / use as bool) WindowSizeChanged
 											WindowUpdateSize()
 											WindowClear()
                       WindowClose()
 
-if you want no ConsoleScreen output while having a window do #define DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
-#
 	(int / use as bool) WaitForInput
 	(char)							PressedKey
 											KeyPressed()
