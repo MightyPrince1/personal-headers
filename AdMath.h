@@ -13,7 +13,7 @@
 (int)		InBounds(number, lower likit, upper limit)
 (int)		PositiveNegativeBool(branchless_condition)
 (double)RoundBetween(number, lower,upper)
-(int)		RoundIntervals(number, interval)
+(double)RoundIntervals(number, interval)
 (int)		IntRoot(number,RootOf)	//broken
 
 */
@@ -98,7 +98,7 @@ double RoundBetween(double number, double lower, double upper){
 
 
 
-int RoundIntervals(int number, int interval){
+double RoundIntervals(int number, int interval){
 	int multiplier = number / (interval + (interval == 0)) + 0.5 * PositiveNegativeBool(number > 0);
 
 	return (interval * multiplier) * (interval != 0);
