@@ -1,6 +1,6 @@
 /*
 											DelayMS(in milliseconds)
-											delay(time, time_type)
+											DelayT(time, time_type)
 													time_types
 														-MIN or MINUTE
 														-SEC or SECOND
@@ -61,7 +61,7 @@ void DelayMS(int time){
 	}
 }
 
-void delay(int time, char time_type){
+void DelayT(int time, char time_type){
 	#ifndef NO_ACRONYM_INPUT
 		char MIN[] = "MIN";
 		char SEC[] = "SEC";
