@@ -61,7 +61,7 @@ void DelayMS(int time){
 	}
 }
 
-void DelayT(int time, char time_type){
+void DelayT(int time, char time_type[]){
 	#ifndef NO_ACRONYM_INPUT
 		char MIN[] = "MIN";
 		char SEC[] = "SEC";
@@ -120,7 +120,7 @@ void DelayT(int time, char time_type){
 		#ifdef __WIN32
 			return RGB(int r, int g, int b);
 		#else
- 	  	return InBounds(b,0,255) + (InBounds(g,0,255)<<8) + (InBounds(r,0,255)<<16);
+ 	  	return InBoundsInt(b,0,255) + (InBoundsInt(g,0,255)<<8) + (InBoundsInt(r,0,255)<<16);
 		#endif
   }
 
