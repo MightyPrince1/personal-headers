@@ -85,14 +85,21 @@ void DelayT(int time, char time_type[]){
 	while( (time1-time2) < pause ){
 		time1 = clock();
 	}
-
 }
+
+
+
+#ifndef UNIX
+	#if defined(__linux__)||defined(__APPLE__)||defined(__unix__)||!defined(__WIN32)
+		#define UNIX
+	#endif
+#endif
 
 
 
 	//crosswindow
 #ifdef USING_WINDOW
-	#ifndef __WIN32
+	#ifdef UNIX
 		#include <X11/Xlib.h>
 		#include <X11/Xcms.h>
     #include <X11/Xutil.h>
@@ -140,7 +147,7 @@ void DelayT(int time, char time_type[]){
 	unsigned long default_background_color = 0xffffff;
 
    int DisplayExists(){
-		#ifndef __WIN32
+		#ifdef UNIX
     	if(d == NULL){
       	printf("Can't open display! Using WSL?\n");
       	#ifdef ERROR_RESULTS_IN_EXIT
@@ -159,7 +166,7 @@ void DelayT(int time, char time_type[]){
 	int WindowHeight = 0;
 
 	void WindowCreate(int width, int height){
-		#ifndef __WIN32
+		#ifdef UNIX
 			d = XOpenDisplay(NULL);
 
 			s = DefaultScreen(d);
@@ -184,7 +191,7 @@ void DelayT(int time, char time_type[]){
 	}
 
 	void WindowWrite(int x, int y, int r, int g, int b){
-		#ifndef __WIN32
+		#ifdef UNIX
       XSetForeground(d, gc, CrossRGB(r,g,b));
 
 		  XDrawPoint(d,w,gc, x, y);
@@ -192,7 +199,7 @@ void DelayT(int time, char time_type[]){
 	}
 
 	void WindowDisplayObjectRectangle(int x, int y, int lenght_along_x, int lenght_along_y, int r, int g, int b){
-		#ifndef __WIN32
+		#ifdef UNIX
 			XSetForeground(d, gc, CrossRGB(r,g,b));
 
 			XFillRectangle(d,w,gc,x,y,lenght_along_y,lenght_along_x);
@@ -201,7 +208,7 @@ void DelayT(int time, char time_type[]){
 
 	void WindowDisplayObjectPolygon(int r, int g, int b){
 		if(!(r < 0 || r > 255 || g < 0 || g > 255 ||b < 0 || b > 255)){
-			#ifndef __WIN32
+			#ifdef UNIX
 				XSetForeground(d, gc, CrossRGB(r,g,b));
 			#endif
 		}
@@ -210,7 +217,7 @@ void DelayT(int time, char time_type[]){
 	}
 
 	void WindowResize(int Width, int Height){
-		#ifndef __WIN32
+		#ifdef UNIX
 
 			XResizeWindow(d,w,Width,Height);
 		#endif
@@ -220,7 +227,7 @@ void DelayT(int time, char time_type[]){
 
 	void WindowUpdateSize(){
 		WindowSizeChanged = 0;
-		#ifndef __WIN32
+		#ifdef UNIX
 			XWindowAttributes wndAttr;
 
 			XGetWindowAttributes(d,w,&wndAttr);
@@ -233,21 +240,21 @@ void DelayT(int time, char time_type[]){
 	}
 
 	void WindowWait(){
-		#ifndef __WIN32
+		#ifdef UNIX
 
 			XNextEvent(d, &e);
 		#endif
 	}
 
 	void WindowClear(){
-		#ifndef __WIN32
+		#ifdef UNIX
 
 			XClearWindow(d,w);
 		#endif
 	}
 
 	void WindowClose(){
-		#ifndef __WIN32
+		#ifdef UNIX
 
 			XFreeGC(d, gc);
       XDestroyWindow(d, w);
