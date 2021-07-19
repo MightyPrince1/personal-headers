@@ -2,7 +2,7 @@
 #compiler agruments:
 -lm
 
-(int) 							IsEven(number)
+(int / use as bool) IsEven(number)
 (double)						NegativeToPositive(number)
 (double)					 	min(a,b)
 (double)					 	max(a,b)
@@ -11,6 +11,7 @@
 (double)						DegreesToRadians(degrees)
 (double)						NotNegative(number)
 (double)						InBounds(number, lower limit, upper limit)
+(int)								InBoundsInt(number,lower_limit,upper_limit)
 (int / use as bool)	PositiveNegativeBool(branchless_condition)
 (double)						RoundBetween(number, lower,upper)
 (double)						RoundIntervals(number, interval)
@@ -86,6 +87,12 @@ double InBounds(double number, double lower_limit, double upper_limit){
 
 
 
+int InBoundsInt(int number, int lower_limit, int upper_limit){
+	return number * (number >= lower_limit && number <= upper_limit) + lower_limit * (number < lower_limit) + upper_limit * (number > upper_limit);
+}
+
+
+
 int PositiveNegativeBool(int branchless_condition){
 	return (branchless_condition == 1) + -(branchless_condition == 0);
 }
@@ -102,7 +109,7 @@ double RoundBetween(double number, double lower, double upper){
 
 
 
-double RoundIntervals(int number, usigned int interval){
+double RoundIntervals(int number, unsigned int interval){
 	int multiplier = number / (interval + (interval == 0)) + 0.5 * PositiveNegativeBool(number > 0);
 
 	return (interval * multiplier) * (interval != 0);
