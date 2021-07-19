@@ -15,6 +15,8 @@
 (int / use as bool)	PositiveNegativeBool(branchless_condition)
 (double)						RoundBetween(number, lower,upper)
 (double)						RoundIntervals(number, interval)
+(double)						NotZero(number)
+(double)						InBoundsInverter(number,lower,upper)
 (int)								IntRoot(number,RootOf)	//broken
 
 */
@@ -76,7 +78,7 @@ double DegreesToRadians(double degrees){
 
 
 double NotNegative(double number){
-	return number * (number >= 0) + -number * (number < 0);
+	return number * (number > 0);
 }
 
 
@@ -113,6 +115,18 @@ double RoundIntervals(int number, unsigned int interval){
 	int multiplier = number / (interval + (interval == 0)) + 0.5 * PositiveNegativeBool(number > 0);
 
 	return (interval * multiplier) * (interval != 0);
+}
+
+
+
+double NotZero(double number){
+	return number + (number == 0);
+}
+
+
+
+double InBoundsInverter(double number, double lower, double upper){
+		return upper - InBounds(number,lower,upper) + lower;
 }
 
 
