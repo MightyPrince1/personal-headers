@@ -13,7 +13,7 @@
 
 #include "AdMath.h"
 
-int CircleBool(int r){
+int* CircleBool(int r){
   int x_circle_axis = r * 2 + 1;
   int y_circle_axis = x_circle_axis;
 
@@ -60,10 +60,10 @@ int CircleBool(int r){
 
 
 
-  return *circle;
+  return circle;
 }
 
-float CircleCircumference(int r){
+float* CircleCircumference(int r){
   int x_circle_axis = r * 2 + 1;
   int y_circle_axis = x_circle_axis;
 
@@ -110,7 +110,7 @@ float CircleCircumference(int r){
 
 
 
-  return *circle;
+  return circle;
 
 }
 
