@@ -67,7 +67,7 @@ void delete(int &array){
 	}
 }
 
-double equals(double value, int dimensions_of_array[]){
+double* equals(double value, int dimensions_of_array[]){
 	int Lenght_of_dimesions_of_array = sizeof(*dimensions_of_array);
 
 	int number_of_elememts_of_result_array = (Lenght_of_dimesions_of_array != 0);
@@ -82,7 +82,7 @@ double equals(double value, int dimensions_of_array[]){
 		result_array[i] = value;
 	}
 
-	return *result_array;
+	return result_array;
 }
 
 //WIP
