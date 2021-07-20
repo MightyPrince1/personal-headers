@@ -49,6 +49,15 @@ extern "C"{
 #include "AdMath.h"
 
 
+
+typedef struct{
+	unsigned short r;
+	unsigned short g;
+	unsigned short b;
+}color;
+
+
+
 void DelayMS(int time){
 	long pause;
 
