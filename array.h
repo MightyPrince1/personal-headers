@@ -15,8 +15,49 @@ extern "C"{
 #include <stdlib.h>
 #include "AdMath.h"
 
-int LenghtOfArray(void *array){
+int LenghtOfArray(void array){
 	return (int)( sizeof(array) / sizeof(array[0]));
+}
+
+int HeightOfArray(void array){
+	return (int)(sizeof(array[0]) / sizeof(array[0][0]));
+}
+
+int DimesionsOfArray(int array){
+	int just_int = 0;
+	int size_of_single_element = sizeof(just_int);
+
+
+	int dimensions = 0;
+
+	while(){
+		if(dimensions == 0){
+			if(sizeof(array) == size_of_single_element){
+				break;
+			}
+			if(dimensions == 1){
+				if(sizeof(array[0]) == size_of_single_element){
+					break;
+				}
+			}
+
+			if(dimensions == 2){
+				if(sizeof(array[0][0]) == size_of_single_element){
+					break;
+				}
+			}
+
+			if(dimensions == 3){
+				if(sizeof(array[0][0][0]) == size_of_single_element){
+					break;
+				}
+			}
+		}
+
+		dimensions ++;
+	}
+
+	return dimensions;
 }
 
 void delete(int &array){
@@ -27,7 +68,7 @@ void delete(int &array){
 }
 
 double equals(double value, int dimensions_of_array[]){
-	int Lenght_of_dimesions_of_array = LenghtOfArray(*dimensions_of_array);
+	int Lenght_of_dimesions_of_array = sizeof(*dimensions_of_array);
 
 	int number_of_elememts_of_result_array = (Lenght_of_dimesions_of_array != 0);
 
