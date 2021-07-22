@@ -17,6 +17,8 @@
 (double)						RoundIntervals(number, interval)
 (double)						NotZero(number)
 (double)						InBoundsInverter(number,lower,upper)
+(double)						LinearApproximation(percent, first, second)
+										//percent from 0 - 1 unless you use #define USING_PERCENTAGE (then it's 0 - 100)
 (int)								IntRoot(number,RootOf)	//broken
 
 */
@@ -127,6 +129,16 @@ double NotZero(double number){
 
 double InBoundsInverter(double number, double lower, double upper){
 		return upper - InBounds(number,lower,upper) + lower;
+}
+
+
+
+double LinearApproximation(float percent, double first, double second){
+	#ifdef USING_PERCENTAGE
+		return (second - first) * (percent / 100) + first;
+	#else
+		return (second - first) * percent + first;
+	#endif
 }
 
 

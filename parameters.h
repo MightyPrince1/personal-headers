@@ -25,6 +25,9 @@ Do not use it
 //projection
 #define CALCULATE_INSTEAD_OF_RAM
 
+//AdMath
+#define USING_PERCENTAGE
+
 #ifdef __cplusplus
   }
 #endif
