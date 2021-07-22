@@ -6,6 +6,7 @@
 #endif
 
 #include <stdlib.h>
+#include "AdMath.h"
 
 int (**WindowSpace) = NULL;
 
@@ -43,8 +44,8 @@ void ResizeWindowSpace(int x, int y){
     }
   }
 
-  WindowHeight = x;
-  WindowWidth = y;
+  WindowSpaceHeight = x;
+  WindowSpaceWidth = y;
 }
 
 void WindowSpaceWrite(int x, int y, int hex_value){
