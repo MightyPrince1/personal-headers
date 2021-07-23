@@ -19,6 +19,18 @@
 (double)						InBoundsInverter(number,lower,upper)
 (double)						LinearApproximation(percent, first, second)
 										//percent from 0 - 1 unless you use #define USING_PERCENTAGE (then it's 0 - 100)
+										//they all use Degrees not radians
+										sin_pregenerate()
+										tan_pregenerate()
+										asin_pregenerate()
+										atan_pregenerate()
+										pregenerate()
+(double)						sin_pre(degrees)
+(double)						cos_pre(degrees)
+(double)						tan_pre(degrees)
+(double)						asin_pre(number)
+(double)						acos_pre(number)
+(double)						atan_pre(number)
 (int)								IntRoot(number,RootOf)	//broken
 
 */
@@ -138,6 +150,165 @@ double LinearApproximation(float percent, double first, double second){
 		return (second - first) * (percent / 100) + first;
 	#else
 		return (second - first) * percent + first;
+	#endif
+}
+
+
+
+sin_pre[92];
+tan_pre[92];
+asin_pre[92];
+atan_pre[92];
+//the position 92 is there for overflow protection
+
+
+double sin_pregenerate(){
+	for(int i = 0; i <= 90; i ++){
+		sin_pre[i] = sin(DegreesToRadians(i));
+	}
+}
+
+
+
+double tan_pregenerate(){
+	for(int i = 0; i <= 90; i ++){
+		tan_pre[i] = tan(DegreesToRadians(i));
+	}
+}
+
+
+
+double asin_pregenerate(){
+	for(int i = 0; i <= 90; i ++){
+		asin_pre[i] = RadiansToDegrees(asin(i/90));
+	}
+}
+
+
+
+double atan_pregenerate(){
+	for(int i = 0; i <= 90; i ++){
+		atan_pre[i] = RadiansToDegrees(atan(i));
+	}
+}
+
+
+
+double pregenerate(){
+	sin_pregenerate();
+	tan_pregenerate();
+	asin_pregenerate();
+	atan_pregenerate();
+}
+
+
+
+double sin_pre(float degrees){
+	degrees = NegativeToPositive(degrees);
+
+	while(degrees > 360){
+		degrees = degreees - 360;
+	}
+
+	degrees = degrees - 180 * (degrees > 180);
+	degrees = degrees * (IsEven(degrees / 90)) + InBoundsInverter(degrees,0,180) * !(IsEven(degrees / 90));
+
+	int using_precentage_check = 0;
+
+	#ifdef USING_PERCENTAGE
+		#undef USING_PERCENTAGE
+		using_precentage_check = 1;
+	#endif
+
+	return LinearApproximation(degrees - (int)degrees,sin_pre[degrees],sin_pre[degrees + 1]) * PositiveNegativeBool(!(degrees > 180));
+
+	#if using_precentage_check = 1
+		#define USING_PERCENTAGE
+	#endif
+}
+
+
+
+double cos_pre(float degrees){
+	return sin_pre(degrees - 90);
+}
+
+
+
+double tan_pre(float degrees){
+	int NegativeMultiplier = PositiveNegativeBool(degrees >= 0);
+
+	degrees = NegativeToPositive(degrees);
+
+	while(degrees > 90){
+		degrees = degrees - 90;
+	}
+
+	int using_precentage_check = 0;
+
+	#ifdef USING_PERCENTAGE
+		#undef USING_PERCENTAGE
+		using_precentage_check = 1;
+	#endif
+
+	return LinearApproximation(degrees - (int)degrees,tan_pre[degrees],tan_pre[degrees + 1]) * NegativeMultiplier;
+
+	#if using_precentage_check = 1
+		#define USING_PERCENTAGE
+	#endif
+}
+
+
+
+double asin_pre(float number){
+	int NegativeMultiplier = PositiveNegativeBool(number >= 0);
+
+	number = NegativeToPositive(number);
+	if(number > 1){
+		return 0;
+	}
+
+	asin[number * 90]
+
+	int using_precentage_check = 0;
+
+	#ifdef USING_PERCENTAGE
+		#undef USING_PERCENTAGE
+		using_precentage_check = 1;
+	#endif
+
+	return LinearApproximation(number - (int)number, asin_pre[number * 90],asin_pre[number * 90 + 1]) * NegativeMultiplier;
+
+	#if using_precentage_check = 1
+		#define USING_PERCENTAGE
+	#endif
+}
+
+
+
+double acos_pre(float number){
+	return asin(number * -1) - 1.570796327;
+}
+
+
+
+double atan_pre(float number){
+	int NegativeMultiplier = PositiveNegativeBool(number >= 0);
+
+	number = NegativeToPositive(number);
+	number = InBounds(number,0,90);
+
+	int using_precentage_check = 0;
+
+	#ifdef USING_PERCENTAGE
+		#undef USING_PERCENTAGE
+		using_precentage_check = 1;
+	#endif
+
+	return LinearApproximation(number - (int)number,tan_pre[number],tan_pre[number + 1]) * NegativeMultiplier;
+
+	#if using_precentage_check = 1
+		#define USING_PERCENTAGE
 	#endif
 }
 
