@@ -190,14 +190,14 @@ void ProjectionCalculate(){
 
     FOV_v = FOV * ProjectionHeight / ProjectionWidth;
 
-    l_screen_h = 2 * d_CamPlayer * tan(DegreesToRadians(FOV / 2));
-    l_screen_v = 2 * d_CamPlayer * tan(DegreesToRadians(FOV_v / 2));
+    l_screen_h = 2 * d_CamPlayer * tan_pre((FOV / 2));
+    l_screen_v = 2 * d_CamPlayer * tan_pre((FOV_v / 2));
 
     diff_i_screen_h = l_screen_h / FOV / 2;
     diff_j_screen_v = l_screen_v / FOV_v / 2;
 
-    m_rotation_horizontal = sin(DegreesToRadians(RotationHorizontal));
-    m_rotation_vertical = sin(DegreesToRadians(RotationVertical));
+    m_rotation_horizontal = sin_pre((RotationHorizontal));
+    m_rotation_vertical = sin_pre((RotationVertical));
 
   #ifndef CALCULATE_INSTEAD_OF_RAM
   }
@@ -211,14 +211,14 @@ void ProjectionCalculate(){
       if(calc_check == 1){
       #endif
 
-        float alpha_h = (atan(i * diff_i_screen_h / d_CamPlayer));
-        float alpha_v = (atan(j * diff_j_screen_v / d_CamPlayer));
+        float alpha_h = atan_pre(i * diff_i_screen_h / d_CamPlayer);
+        float alpha_v = atan_pre(j * diff_j_screen_v / d_CamPlayer);
 
         vector_z = sin(alpha_v) * m_rotation_vertical;
-        float vector_transit_h = cos(alpha_v);
+        float vector_transit_h = cos_pre((alpha_v));
 
-        vector_x = vector_transit_h * sin(alpha_h) * m_rotation_horizontal;
-        vector_y = vector_transit_h * cos(alpha_h) * m_rotation_horizontal;
+        vector_x = vector_transit_h * sin_pre(alpha_h) * m_rotation_horizontal;
+        vector_y = vector_transit_h * cos_pre(alpha_h) * m_rotation_horizontal;
 
 
 
@@ -232,9 +232,9 @@ void ProjectionCalculate(){
       }
       else{
         if(RotationHorizontal_old != RotationHorizontal || RotationVertical_old != RotationVertical){
-          vector_x = ProjectionMapResults[i + ProjectionHeight / 2][j + ProjectionWidth / 2][0] * sin(DegreesToRadians(RotationHorizontal));
-          vector_y = ProjectionMapResults[i + ProjectionHeight / 2][j + ProjectionWidth / 2][1] * sin(DegreesToRadians(RotationHorizontal));
-          vector_z = ProjectionMapResults[i + ProjectionHeight / 2][j + ProjectionWidth / 2][2] * sin(DegreesToRadians(RotationVertical));
+          vector_x = ProjectionMapResults[i + ProjectionHeight / 2][j + ProjectionWidth / 2][0] * sin_pre((RotationHorizontal));
+          vector_y = ProjectionMapResults[i + ProjectionHeight / 2][j + ProjectionWidth / 2][1] * sin_pre((RotationHorizontal));
+          vector_z = ProjectionMapResults[i + ProjectionHeight / 2][j + ProjectionWidth / 2][2] * sin_pre((RotationVertical));
         }
         else if(__calculated_once == 0){
           vector_x = ProjectionMapResults[i + ProjectionHeight / 2][j + ProjectionWidth / 2][0];
@@ -278,9 +278,11 @@ void ProjectionCalculate(){
 void ProjectionToWindow(){
   for(int i = 0; i < ProjectionHeight; i ++){
     for(int j = 0; j < ProjectionWidth; j ++){
-      WindowWrite(i,j, ProjectionMap[i][j][0], ProjectionMap[i][j][1], ProjectionMap[i][j][2]);
+      WindowSpaceWrite(i,j, ProjectionMap[i][j][0], ProjectionMap[i][j][1], ProjectionMap[i][j][2]);
     }
   }
+
+  WindowUpdate();
 }
 
 void ProjectionFitWindow(){
