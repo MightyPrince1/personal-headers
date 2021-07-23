@@ -65,7 +65,7 @@ double min(double a,double b){
 
 
 double max(double a,double b){
-  return a * (a >= b) + b * (b > a);;
+  return a * (a >= b) + b * (b > a);
 }
 
 
