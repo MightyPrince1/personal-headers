@@ -8,11 +8,11 @@
 														#usage of full words only if #define NO_ACRONYM_INPUT
 
 #usage of following only if #define USING_WINDOW before including this header
-	(unsigned long)			CrossRGB(int r, int g, int b);
-	(unsigned long)			HexToRGB(int hex_value);
+	(hex)								CrossRGB(int r, int g, int b);
+	(hex*)							HexToRGB(int hex_value);
 
-	(unsigned long)			default_foreground_color
-	(unsigned long)			default_background_color
+	(hex)								default_foreground_color
+	(hex)								default_background_color
 
 #if you want no ConsoleScreen output while having a window do #define DISABLE_CONSOLE_SCREEN_IF_USING_WINDOW
 
@@ -136,7 +136,7 @@ void DelayT(int time, char time_type[]){
 
 	#endif
 
-	unsigned long CrossRGB(int r, int g, int b){
+	hex CrossRGB(int r, int g, int b){
 		#ifdef __WIN32
 			return RGB(int r, int g, int b);
 		#else
