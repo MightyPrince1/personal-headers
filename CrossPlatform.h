@@ -58,6 +58,10 @@ typedef struct{
 
 
 
+typedef unsigned long hex;
+
+
+
 void DelayMS(int time){
 	long pause;
 
