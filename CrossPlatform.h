@@ -144,20 +144,21 @@ void DelayT(int time, char time_type[]){
 		#endif
   }
 
-	/*unsigned long HexToRGB(unsigned long hex_value){
+	hex* HexToRGB(unsigned long hex_value){
 		int rgb_values[3];
+		int a;
 		#ifdef __WIN32
-			sscanf(hex_value, "%02x%02x%02x", &rgb_values[2], &rgb_values[1], &rgb_values[0]);
+			sscanf(hex_value, "%02x%02x%02x%02x",a, &rgb_values[2], &rgb_values[1], &rgb_values[0]);
 		#else
-			sscanf(hex_value, "%02x%02x%02x", &rgb_values[0], &rgb_values[1], &rgb_values[2]);
+			sscanf(hex_value, "%02x%02x%02x%02x",a, &rgb_values[0], &rgb_values[1], &rgb_values[2]);
 		#endif
 
-		return *rgb_values;
-	}*/
+		return rgb_values;
+	}
 
 	//for now in hex code
-	unsigned long default_foreground_color = 0x000000;
-	unsigned long default_background_color = 0xffffff;
+	hex default_foreground_color = 0x000000;
+  hex default_background_color = 0xffffff;
 
    int DisplayExists(){
 		#ifdef UNIX
@@ -231,7 +232,6 @@ void DelayT(int time, char time_type[]){
 
 	void WindowResize(int Width, int Height){
 		#ifdef UNIX
-
 			XResizeWindow(d,w,Width,Height);
 		#endif
 	}
@@ -254,21 +254,18 @@ void DelayT(int time, char time_type[]){
 
 	void WindowWait(){
 		#ifdef UNIX
-
 			XNextEvent(d, &e);
 		#endif
 	}
 
 	void WindowClear(){
 		#ifdef UNIX
-
 			XClearWindow(d,w);
 		#endif
 	}
 
 	void WindowClose(){
 		#ifdef UNIX
-
 			XFreeGC(d, gc);
       XDestroyWindow(d, w);
 			XCloseDisplay(d);
