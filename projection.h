@@ -190,8 +190,8 @@ void ProjectionCalculate(){
 
     FOV_v = FOV * ProjectionHeight / ProjectionWidth;
 
-    l_screen_h = 2 * d_CamPlayer * tan(FOV / 2);
-    l_screen_v = 2 * d_CamPlayer * tan(FOV_v / 2);
+    l_screen_h = 2 * d_CamPlayer * tan(DegreesToRadians(FOV / 2));
+    l_screen_v = 2 * d_CamPlayer * tan(DegreesToRadians(FOV_v / 2));
 
     diff_i_screen_h = l_screen_h / FOV / 2;
     diff_j_screen_v = l_screen_v / FOV_v / 2;
@@ -211,8 +211,8 @@ void ProjectionCalculate(){
       if(calc_check == 1){
       #endif
 
-        float alpha_h = atan(i * diff_i_screen_h / d_CamPlayer);
-        float alpha_v = atan(j * diff_j_screen_v / d_CamPlayer);
+        float alpha_h = (atan(i * diff_i_screen_h / d_CamPlayer));
+        float alpha_v = (atan(j * diff_j_screen_v / d_CamPlayer));
 
         vector_z = sin(alpha_v) * m_rotation_vertical;
         float vector_transit_h = cos(alpha_v);
