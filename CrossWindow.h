@@ -143,8 +143,10 @@ void WindowUpdate(){
   }
 
   for(int i = 0; i < n_values; i ++){
-    XSetForeground(d,gc,value_list[i]);
-    XDrawPoints(w,d,gc,value_coords[i],max_n_points,CoordModeOrigin);
+    #ifdef UNIX
+      XSetForeground(d,gc,value_list[i]);
+      XDrawPoints(w,d,gc,value_coords[i],max_n_points,CoordModeOrigin);
+    #endif
   }
 }
 
