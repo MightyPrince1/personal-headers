@@ -59,7 +59,7 @@ void ResizeWindowSpace(int x, int y){
 }
 
 void WindowSpaceWrite(int x, int y, int r,int g, int b){
-  if(x !< WindowSpaceHeight || y !< WindowSpaceWidth){
+  if(x >= WindowSpaceHeight || y >= WindowSpaceWidth){
       return;
   }
 
@@ -99,7 +99,7 @@ void WindowUpdate(){
   for(int i = 0; i < WindowSpaceHeight; i ++){
     for(int j = 0; j < WindowSpaceWidth; j ++){
       for(int k = 0; k < n_values; k ++){
-        if(WindowsSpace[i][j] == value_list[k]){
+        if(WindowSpace[i][j] == value_list[k]){
           value_list_amounts[k] ++;
           break;
         }
@@ -110,14 +110,14 @@ void WindowUpdate(){
   int max_n_points = 0;
 
   for(int i = 0; i < n_values; i ++){
-    max_n_points = max(value_list_amounts[k],max_n_points);
+    max_n_points = max(value_list_amounts[i],max_n_points);
   }
 
-  value_coords[n_values][2][max_n_points];
+  int value_coords[n_values][2][max_n_points];
 
-  for(int i = 0; i < n_values i ++){
+  for(int i = 0; i < n_values; i ++){
     for(int j = 0; j < 2; j ++){
-      for(int k = 0; k <max_n_points; k ++){
+      for(int k = 0; k < max_n_points; k ++){
         value_coords[i][j][k] = -1;
       }
     }
@@ -146,7 +146,7 @@ void WindowUpdate(){
   for(int i = 0; i < n_values; i ++){
     #ifdef UNIX
       XSetForeground(d,gc,value_list[i]);
-      XDrawPoints(w,d,gc,value_coords[i],max_n_points,CoordModeOrigin);
+      XDrawPoints(d,w,gc,value_coords[i],max_n_points,CoordModeOrigin);
     #endif
   }
 }
