@@ -27,6 +27,12 @@ void ResizeWindowSpace(int x, int y){
 
   hex WindowSpaceSave[WindowSpaceHeight][WindowSpaceWidth];
 
+  for(int i = 0; i < WindowSpaceHeight;  i ++){
+    for(int j = 0; j < WindowSpaceWidth; j ++){
+      WindowSpaceSave[i][j] = WindowSpace[i][j];
+    }
+  }
+
   for(int i = 0; i < WindowSpaceWidth; i ++){
     free(WindowSpace[i]);
     WindowSpace[i] = 0;
@@ -34,12 +40,6 @@ void ResizeWindowSpace(int x, int y){
 
   free(WindowSpace);
   WindowSpace = NULL;
-
-  for(int i = 0; i < WindowSpaceHeight;  i ++){
-    for(int j = 0; j < WindowSpaceWidth; j ++){
-      WindowSpaceSave[i][j] = WindowSpace[i][j];
-    }
-  }
 
   WindowSpace = malloc(sizeof(hex*) * x);
 
