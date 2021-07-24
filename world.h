@@ -1,5 +1,12 @@
-/*WIP(still have to redo allocation)
+/*
+(hex)  WorldMap[WorldHeight][WorldWidth][WorldLenght]
+(int)  WorldHeight
+(int)  WorldWidth
+(int)  WorldLenght
+(int)  default_WorldState
 
+        DefaultWorldMap()
+        ResizeWorldMap(NewWorldHeight,NewWorldWidth,NewWorldLenght)
 */
 #ifndef WORLD_H
 #define WORLD_H
@@ -12,11 +19,11 @@ extern "C"{
 #include <stdlib.h>
 #include <string.h>
 
-int WorldHeight = 64;
-int WorldWidth = 64;
-int WorldLenght = 64;
+int WorldHeight = 0;
+int WorldWidth = 0;
+int WorldLenght = 0;
 
-int WorldMap[64][64][64][3];
+hex (***WorldMap) = NULL;
 
 int default_WorldState = 0;
 
@@ -24,57 +31,60 @@ void DefaultWorldMap(){
   for(int i = 0; i < WorldHeight; i ++){
     for(int j = 0; j < WorldWidth; j ++){
       for(int k = 0; k < WorldLenght; k ++){
-        for(int l = 0; l < 3; l ++)
-        WorldMap[i][j][k][l] = default_WorldState;
+        WorldMap[i][j][k] = default_WorldState;
       }
     }
   }
 }
 
-//broken have to do memory allocation
-/*
-int World_x = 128;
-int World_y = 128;
-int World_z = 128;
+void ResizeWorldMap(NewWorldHeight,NewWorldWidth,NewWorldLenght){
+  hex WorldMapSave[WorldHeight][WorldWidth][WorldLenght];
 
-int (**WorldMap) = NULL;
-
-void DeleteWorld() {
-    if (WorldMap) {
-        free(WorldMap);
-        WorldMap = NULL;
-    }
-}
-
-#define MIN(x,y) ((x) < (y) ? (x) : (y))
-
-void ResizeWorld(int x, int y, int z) {
-    // allocate new screen
-    int (**scr) = calloc(x, sizeof *scr);
-    int (*data)[y] = calloc(x, sizeof *data);
-    for (int r = 0; r < x; ++r){
-        scr[r] = data[r];
-      }
-    // copy content of old screen to a new one
-    int min_x = MIN(x, World_x);
-    int min_y = MIN(y, World_y);
-    int min_z = MIN(z, World_z);
-    for (int r = 0; r < x; ++r){
-      for(int j = 0; j < y; j ++){
-        memcpy(scr[r], WorldMap[r], sizeof(int[min_z]));
+  for(int i = 0; i < WorldHeight; i ++){
+    for(int j = 0; j < WorldWidth; j ++){
+      for(int k = 0; k < WorldLenght; k ++){
+        WorldMapSave[i][j][k] = WorldMap[i][j][k];
       }
     }
-    // release old screen
-    DeleteWorld();
+  }
 
-    // publish a new screen
-    WroldMap = scr;
-    World_x = x;
-    World_y = y;
-    World_z = z;
+  for(int i = 0; i < WorldWidth; i ++){
+    for(int j = 0; j < WorldLenght; j ++){
+      free(WorldMap[i][j]);
+      WorldMap[i][j] = NULL;
+    }
+  }
 
+  for(int i = i < WorldWidth; i ++){
+    free(WorldMap[i]);
+    WorldMap[i] = NULL;
+  }
+
+  WorldMap = malloc(sizeof(hex**) * NewWorldHeight);
+
+  for(int i = 0; i < NewWorldHeight; i ++){
+    WorldMap[i] = malloc(sizeof(hex*) * NewWorldWidth);
+  }
+
+  for(int i = 0; i < NewWorldHeight; i ++){
+    for(int j = 0; j < NewWorldWidth; j ++){
+      WorldMap[i][j] = malloc(sizeof(hex) * NewWorldLenght);
+    }
+  }
+
+  for(int i = 0; i < min(NewWorldHeight, WorldHeight); i ++){
+    for(int j = 0; j < min(NewWorldWidth, WorldWidth); j ++){
+      for(int k = 0; k < min(NewWorldLenght, WorldLenght); k ++){
+        WorldMap[i][j][k] = WorldMapSave[i][j][k];
+      }
+    }
+  }
+
+  WorldHeight = NewWorldHeight;
+  WorldWidth = NewWorldWidth;
+  WorldLenght = NewWorldLenght;
 }
-*/
+
 
 #ifdef __cplusplus
 }
