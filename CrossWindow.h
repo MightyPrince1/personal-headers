@@ -35,7 +35,7 @@ void ResizeWindowSpace(int x, int y){
 
   for(int i = 0; i < WindowSpaceWidth; i ++){
     free(WindowSpace[i]);
-    WindowSpace[i] = 0;
+    WindowSpace[i] = NULL;
   }
 
   free(WindowSpace);
