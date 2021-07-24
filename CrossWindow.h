@@ -3,6 +3,7 @@ hex WindowSpace[x][y]
     ResizeWindowSpace(x,y)
     WindowSpaceWrite(x,y,r,g,b)
     WindowUpdate()
+    WindowResize(height,width)
 */
 #ifndef CROSSWINDOW_H
 #define CROSSWINDOW_H
@@ -148,6 +149,12 @@ void WindowUpdate(){
       XDrawPoints(w,d,gc,value_coords[i],max_n_points,CoordModeOrigin);
     #endif
   }
+}
+
+void WindowResize(int height, int width){
+  ResizeWindowSpace(height,width);
+  WindowScreenResize(height,width);
+  WindowUpdateSize();
 }
 
 #ifdef __cplusplus
