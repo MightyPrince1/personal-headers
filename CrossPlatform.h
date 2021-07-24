@@ -148,9 +148,9 @@ void DelayT(int time, char time_type[]){
 		int rgb_values[3];
 		int a;
 		#ifdef __WIN32
-			sscanf(hex_value, "%02x%02x%02x%02x",a, &rgb_values[2], &rgb_values[1], &rgb_values[0]);
+			sscanf(&hex_value, "%02x%02x%02x%02x",a, &rgb_values[2], &rgb_values[1], &rgb_values[0]);
 		#else
-			sscanf(hex_value, "%02x%02x%02x%02x",a, &rgb_values[0], &rgb_values[1], &rgb_values[2]);
+			sscanf(&hex_value, "%02x%02x%02x%02x",a, &rgb_values[0], &rgb_values[1], &rgb_values[2]);
 		#endif
 
 		return rgb_values;
