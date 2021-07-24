@@ -144,7 +144,7 @@ void DelayT(int time, char time_type[]){
 		#endif
   }
 
-	int* HexToRGB(hex hex_value){
+	/*int* HexToRGB(hex hex_value){
 		int rgb_values[3];
 		int a;
 		#ifdef __WIN32
@@ -154,7 +154,7 @@ void DelayT(int time, char time_type[]){
 		#endif
 
 		return rgb_values;
-	}
+	}*/
 
 	//for now in hex code
 	hex default_foreground_color = 0x000000;
