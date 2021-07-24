@@ -1,7 +1,7 @@
 /*
   (int / use as bool) CircleBool(r)
   (float)             CricleCircumference(r)
-  //returns *array[r * 2 +1][r * 2 + 1]
+  //returns array[r * 2 +1][r * 2 + 1]
 */
 
 #ifndef IMPLEMENTATIONS_H
@@ -12,15 +12,21 @@
 #endif
 
 #include "AdMath.h"
+#include <stdlib.h>
 
-int* CircleBool(int r){
+int** CircleBool(int r){
   int x_circle_axis = r * 2 + 1;
   int y_circle_axis = x_circle_axis;
 
   int y_f = 0.7071057812 * r;
   int x_f = round(r - y_f);
 
-  int circle[x_circle_axis][y_circle_axis];
+  int **circle;//[x_circle_axis][y_circle_axis];
+  circle = malloc(sizeof(int*) * x_circle_axis);
+
+  for(int i = 0; i < x_circle_axis; i ++){
+    circle[i] = malloc(sizeof(int) * y_circle_axis);
+  }
 
 
   int fract[x_f][y_f];
@@ -63,14 +69,20 @@ int* CircleBool(int r){
   return circle;
 }
 
-float* CircleCircumference(int r){
+float** CircleCircumference(int r){
   int x_circle_axis = r * 2 + 1;
   int y_circle_axis = x_circle_axis;
 
   int y_f = 0.7071057812 * r;
   int x_f = round(r - y_f);
 
-  float circle[x_circle_axis][y_circle_axis];
+  float **circle;//[x_circle_axis][y_circle_axis];
+
+  circle = malloc(sizeof(float*) * x_circle_axis);
+
+  for(int i = 0; i < x_circle_axis; i ++){
+    circle[i] = malloc(sizeof(float) *  y_circle_axis);
+  }
 
 
   float fract[x_f][y_f];
