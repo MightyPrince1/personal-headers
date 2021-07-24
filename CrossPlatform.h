@@ -9,7 +9,7 @@
 
 #usage of following only if #define USING_WINDOW before including this header
 	(hex)								CrossRGB(int r, int g, int b);
-	(hex*)							HexToRGB(int hex_value);
+	(int*)							HexToRGB(int hex_value);
 
 	(hex)								default_foreground_color
 	(hex)								default_background_color
@@ -144,7 +144,7 @@ void DelayT(int time, char time_type[]){
 		#endif
   }
 
-	hex* HexToRGB(unsigned long hex_value){
+	int* HexToRGB(hex hex_value){
 		int rgb_values[3];
 		int a;
 		#ifdef __WIN32
