@@ -36,6 +36,9 @@ ProjectionFitWindow()
 #ifndef PROJECTION_H
 #define PROJECTION_H
 
+//putting results in memory is redundant
+#define CALCULATE_INSTEAD_OF_RAM;
+
 #ifdef __cplusplus
 extern "C"{
 #endif
