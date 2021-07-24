@@ -1,7 +1,11 @@
 /*
 list of parameters of headers
 
-Do not use it
+these parameters have to be set before doing #include "<their respective header>"
+
+as a best practise define them before including any headers
+
+Do not #include this header!
 */
 
 #ifndef PARAMETERS_H
@@ -27,6 +31,7 @@ Do not use it
 
 //AdMath
 #define USING_PERCENTAGE
+#define USING_RADIANS
 
 #ifdef __cplusplus
   }
