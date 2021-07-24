@@ -1,8 +1,8 @@
 /*
   (int / use as bool) CircleBool(r)
   (float)             CricleCircumference(r)
-  //returns array[r * 2 +1][r * 2 + 1]
-*/
+  //returns array[r * 2 +1][r * 2 + 1] use strcpy() to apply it to another array
+*/strcpy
 
 #ifndef IMPLEMENTATIONS_H
 #define IMPLEMENTATIONS_H
