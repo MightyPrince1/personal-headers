@@ -19,6 +19,7 @@
 (double)						InBoundsInverter(number,lower,upper)
 (double)						LinearApproximation(percent, first, second)
 										//percent from 0 - 1 unless you use #define USING_PERCENTAGE (then it's 0 - 100)
+(double)						RecoursiveSubstraction(number, upper)
 										//they all use Degrees not radians
 										sin_pregenerate()
 										tan_pregenerate()
@@ -151,6 +152,16 @@ double LinearApproximation(float percent, double first, double second){
 	#else
 		return (second - first) * percent + first;
 	#endif
+}
+
+
+
+double RecoursiveSubstraction(double number, double upper){
+	while(NegativeToPositive(number) > upper){
+		number = number - (upper * PositiveNegativeBool(number >= 0));
+	}
+
+	return number;
 }
 
 
