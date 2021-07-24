@@ -113,11 +113,13 @@ void WindowUpdate(){
     max_n_points = max(value_list_amounts[i],max_n_points);
   }
 
-  int value_coords[n_values][max_n_points];
+  int value_coords[n_values][2][max_n_points];
 
   for(int i = 0; i < n_values; i ++){
-    for(int j = 0; j < max_n_points; j ++){
-      value_coords[i][j] = -1;
+    for(int j = 0; j < 2; j ++){
+      for(int k = 0; k < max_n_points; k ++){
+        value_coords[i][j][k] = -1;
+      }
     }
   }
 
@@ -136,7 +138,8 @@ void WindowUpdate(){
         l_i ++;
       }
 
-      value_coords[value_list_position][l_i] = NotNegative((i - 1) * WindowWidth) + j;
+      value_coords[value_list_position][0][l_i] = i;
+      value_coords[value_list_position][1][l_i] = j;
     }
   }
 
