@@ -22,7 +22,7 @@
                       WindowWait()
                       WindowWrite(int x, int y, int R, int G, int B)
                       //if you don't want to change the color use out of bounds RGB values
-											WindowResize(x,y)
+											WindowScreenResize(x,y)
 	(int / use as bool) WindowSizeChanged
 											WindowUpdateSize()
 											WindowClear()
@@ -230,7 +230,7 @@ void DelayT(int time, char time_type[]){
 
 	}
 
-	void WindowResize(int Width, int Height){
+	void WindowScreenResize(int Width, int Height){
 		#ifdef UNIX
 			XResizeWindow(d,w,Width,Height);
 		#endif
