@@ -167,16 +167,16 @@ double RecoursiveSubstraction(double number, double upper){
 
 
 
-sin_pre[92];
-tan_pre[92];
-asin_pre[92];
-atan_pre[92];
+double sin_pre_values[92];
+double tan_pre_values[92];
+double asin_pre_values[92];
+double atan_pre_values[92];
 //the position 92 is there for overflow protection
 
 
 double sin_pregenerate(){
 	for(int i = 0; i <= 90; i ++){
-		sin_pre[i] = sin(DegreesToRadians(i));
+		sin_pre_values[i] = sin(DegreesToRadians(i));
 	}
 }
 
@@ -184,7 +184,7 @@ double sin_pregenerate(){
 
 double tan_pregenerate(){
 	for(int i = 0; i <= 90; i ++){
-		tan_pre[i] = tan(DegreesToRadians(i));
+		tan_pre_values[i] = tan(DegreesToRadians(i));
 	}
 }
 
@@ -192,7 +192,7 @@ double tan_pregenerate(){
 
 double asin_pregenerate(){
 	for(int i = 0; i <= 90; i ++){
-		asin_pre[i] = RadiansToDegrees(asin(i/90));
+		asin_pre_values[i] = RadiansToDegrees(asin(i/90));
 	}
 }
 
@@ -200,7 +200,7 @@ double asin_pregenerate(){
 
 double atan_pregenerate(){
 	for(int i = 0; i <= 90; i ++){
-		atan_pre[i] = RadiansToDegrees(atan(i));
+		atan_pre_values[i] = RadiansToDegrees(atan(i));
 	}
 }
 
@@ -223,7 +223,7 @@ double sin_pre(float degrees){
 	degrees = NegativeToPositive(degrees);
 
 	while(degrees > 360){
-		degrees = degreees - 360;
+		degrees = degrees - 360;
 	}
 
 	degrees = degrees - 180 * (degrees > 180);
@@ -238,9 +238,9 @@ double sin_pre(float degrees){
 		using_precentage_check = 1;
 	#endif
 
-	result = LinearApproximation(degrees - (int)degrees,sin_pre[degrees],sin_pre[degrees + 1]) * PositiveNegativeBool(!(degrees > 180));
+	result = LinearApproximation(degrees - (int)degrees,sin_pre_values[(int)degrees],sin_pre_values[(int)degrees + 1]) * PositiveNegativeBool(!(degrees > 180));
 
-	#if using_precentage_check = 1
+	#if using_precentage_check == 1
 		#define USING_PERCENTAGE
 	#endif
 
@@ -281,9 +281,9 @@ double tan_pre(float degrees){
 		using_precentage_check = 1;
 	#endif
 
-	result = LinearApproximation(degrees - (int)degrees,tan_pre[degrees],tan_pre[degrees + 1]) * NegativeMultiplier;
+	result = LinearApproximation(degrees - (int)degrees,tan_pre_values[(int)degrees],tan_pre_values[(int)degrees + 1]) * NegativeMultiplier;
 
-	#if using_precentage_check = 1
+	#if using_precentage_check == 1
 		#define USING_PERCENTAGE
 	#endif
 
@@ -300,8 +300,6 @@ double asin_pre(float number){
 		return 0;
 	}
 
-	asin[number * 90]
-
 	int using_precentage_check = 0;
 
 	#ifdef USING_PERCENTAGE
@@ -312,12 +310,12 @@ double asin_pre(float number){
 	double result;
 
 	#ifdef USING_RADIANS
-		result = DegreesToRadians(LinearApproximation(number - (int)number, asin_pre[number * 90],asin_pre[number * 90 + 1]) * NegativeMultiplier);
+		result = DegreesToRadians(LinearApproximation(number - (int)number, asin_pre_values[(int)(number * 90)],asin_pre_values[(int)(number * 90) + 1]) * NegativeMultiplier);
 	#endif
 
-	result = LinearApproximation(number - (int)number, asin_pre[number * 90],asin_pre[number * 90 + 1]) * NegativeMultiplier;
+	result = LinearApproximation(number - (int)number, asin_pre_values[(int)(number * 90)],asin_pre_values[(int)(number * 90 + 1)]) * NegativeMultiplier;
 
-	#if using_precentage_check = 1
+	#if using_precentage_check == 1
 		#define USING_PERCENTAGE
 	#endif
 
@@ -351,12 +349,12 @@ double atan_pre(float number){
 	#endif
 
 	#ifdef USING_RADIANS
-		result = DegreesToRadians(LinearApproximation(number - (int)number,tan_pre[number],tan_pre[number + 1]) * NegativeMultiplier);
+		result = DegreesToRadians(LinearApproximation(number - (int)number,tan_pre_values[(int)number],tan_pre_values[(int)number + 1]) * NegativeMultiplier);
 	#endif
 
-	result = LinearApproximation(number - (int)number,tan_pre[number],tan_pre[number + 1]) * NegativeMultiplier;
+	result = LinearApproximation(number - (int)number,tan_pre_values[(int)number],tan_pre_values[(int)number + 1]) * NegativeMultiplier;
 
-	#if using_precentage_check = 1
+	#if using_precentage_check == 1
 		#define USING_PERCENTAGE
 	#endif
 
