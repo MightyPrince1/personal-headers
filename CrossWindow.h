@@ -145,8 +145,15 @@ void WindowUpdate(){
 
   for(int i = 0; i < n_values; i ++){
     #ifdef UNIX
+      XPoint coords_in_x[max_n_points];
+
+      for(int j = 0; j < max_n_points; j ++){
+        coords_in_x[j].x = value_coords[i][0][j];
+        coords_in_x[j].y = value_coords[i][1][j];
+      }
+
       XSetForeground(d,gc,value_list[i]);
-      XDrawPoints(d,w,gc,value_coords[i],max_n_points,CoordModeOrigin);
+      XDrawPoints(d,w,gc,coords_in_x,max_n_points,CoordModeOrigin);
     #endif
   }
 }
