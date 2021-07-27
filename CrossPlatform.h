@@ -28,6 +28,8 @@
 											WindowClear()
                       WindowClose()
 
+	(int)								n_cores
+	(int)								CountCores()
 	(int / use as bool) WaitForInput
 	(char)							PressedKey
 											KeyPressed()
@@ -276,6 +278,46 @@ void DelayT(int time, char time_type[]){
 
 #endif
 
+int n_cores = 0;
+
+int CountCores(){
+	//from Dirk-Jan Kroon on stackoverflow
+	#ifdef _WIN32
+		#include <windows.h>
+	#elif MACOS
+		#include <sys/param.h>
+		#include <sys/sysctl.h>
+	#else
+		#include <unistd.h>
+	#endif
+
+	#ifdef WIN32
+    SYSTEM_INFO sysinfo;
+    GetSystemInfo(&sysinfo);
+    n_cores = sysinfo.dwNumberOfProcessors;
+
+	#elif MACOS
+    int nm[2];
+    size_t len = 4;
+    uint32_t count;
+
+    nm[0] = CTL_HW; nm[1] = HW_AVAILCPU;
+    sysctl(nm, 2, &count, &len, NULL, 0);
+
+    if(count < 1){
+        nm[1] = HW_NCPU;
+        sysctl(nm, 2, &count, &len, NULL, 0);
+        if(count < 1) { count = 1; }
+    }
+
+		n_cores = count;
+
+	#else
+    n_cores = sysconf(_SC_NPROCESSORS_ONLN);
+	#endif
+
+	return n_cores;
+}
 
 
 int WaitForInput = 0;
