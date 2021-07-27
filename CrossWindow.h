@@ -100,7 +100,12 @@ void WindowUpdate(){
 
       if(broke_cycle == 1){
         n_values ++;
-        value_list = (hex*) realloc(value_list,sizeof(hex) * n_values);
+
+        if(sizeof(hex) * n_values > sizeof(value_list)){
+          value_list = malloc(sizeof(value_list));
+        }
+
+        //value_list = (hex*) realloc(value_list,sizeof(hex) * n_values);
 
         value_list[n_values - 1] = WindowSpace[i][j];
       }
