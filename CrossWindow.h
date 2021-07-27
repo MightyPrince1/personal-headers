@@ -2,8 +2,11 @@
 hex WindowSpace[x][y]
     ResizeWindowSpace(x,y)
     WindowSpaceWrite(x,y,r,g,b)
+    //currently broken
     WindowUpdate()
+
     WindowResize(height,width)
+    WindowUpdateThreaded()
 */
 #ifndef CROSSWINDOW_H
 #define CROSSWINDOW_H
@@ -16,6 +19,7 @@ hex WindowSpace[x][y]
 
 #include "CrossPlatform.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include "AdMath.h"
 
 hex (**WindowSpace) = NULL;
@@ -70,12 +74,15 @@ void WindowSpaceWrite(int x, int y, int r,int g, int b){
 
 void WindowUpdate(){
   int n_values = 1;
+  printf("1\n");
   hex (*value_list) = malloc(sizeof(hex));
 
   value_list[0] = WindowSpace[0][0];
 
   for(int i = 0; i < WindowSpaceHeight; i++){
     for(int j = 0; j <WindowSpaceWidth; j++){
+      //printf("%d i %d j",i,j);
+
       int broke_cycle = 0;
 
       for(int k = 0; k < n_values; k ++){
@@ -87,18 +94,26 @@ void WindowUpdate(){
 
       if(broke_cycle == 1){
         n_values ++;
-        value_list = malloc(sizeof(hex));
+        value_list = (hex*) realloc(value_list,sizeof(hex) * n_values);
 
         value_list[n_values - 1] = WindowSpace[i][j];
       }
     }
+    printf("%d i\n",i);
   }
 
+  printf("2\n");
+
+  printf("%d n_values \n",n_values);
+
   int value_list_amounts[n_values];
+
+  printf("2.1\n");
 
   for(int i = 0; i < WindowSpaceHeight; i ++){
     for(int j = 0; j < WindowSpaceWidth; j ++){
       for(int k = 0; k < n_values; k ++){
+        printf("%d k\n",k);
         if(WindowSpace[i][j] == value_list[k]){
           value_list_amounts[k] ++;
           break;
@@ -107,11 +122,15 @@ void WindowUpdate(){
     }
   }
 
+  printf("3\n");
+
   int max_n_points = 0;
 
   for(int i = 0; i < n_values; i ++){
     max_n_points = max(value_list_amounts[i],max_n_points);
   }
+
+  printf("4\n");
 
   int value_coords[n_values][2][max_n_points];
 
@@ -122,6 +141,8 @@ void WindowUpdate(){
       }
     }
   }
+
+  printf("4\n");
 
   for(int i = 0; i < WindowSpaceHeight; i ++){
     for(int j = 0; j < WindowSpaceWidth; j ++){
@@ -143,6 +164,8 @@ void WindowUpdate(){
     }
   }
 
+  printf("5\n");
+
   for(int i = 0; i < n_values; i ++){
     #ifdef UNIX
       XPoint coords_in_x[max_n_points];
@@ -162,6 +185,37 @@ void WindowResize(int height, int width){
   ResizeWindowSpace(height,width);
   WindowScreenResize(height,width);
   WindowUpdateSize();
+}
+
+#include <pthread.h>
+
+void *WindowUpdateThread(void *thread){
+  int *thread_interation = (int*) thread;
+
+  for(int i = thread_interation; i < n_count; i ++){
+    for(int j = 0; j < WindowWidth; j ++){
+      //a modified version of WindowWrite
+      #ifdef UNIX
+        XSetForeground(d, gc, WindowSpace[i][j]);
+
+        XDrawPoint(d,w,gc, i, j);
+      #endif
+    }
+  }
+}
+
+void WindowupdateThreaded(){
+  if(n_cores == 0){
+    CountCores();
+  }
+
+  pthread th_id;
+
+  for(int i = 0; i < n_count; i ++){
+    pthread_create(&id_id,NULL,WindowUpdateThread,(void*) n_count);
+  }
+
+  pthread_exit();
 }
 
 #ifdef __cplusplus
