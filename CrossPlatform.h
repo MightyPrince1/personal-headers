@@ -1,4 +1,7 @@
 /*
+#compiler arguments
+	-lX11	(if you use Linux)
+	
 											DelayMS(in milliseconds)
 											DelayT(time, time_type)
 													time_types
