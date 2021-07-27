@@ -1,4 +1,7 @@
 /*
+#compiler arguments:
+  -lpthreads
+
 hex WindowSpace[x][y]
     ResizeWindowSpace(x,y)
     WindowSpaceWrite(x,y,r,g,b)
