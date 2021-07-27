@@ -5,7 +5,7 @@ Some headers I use myself a lot. A lot of this is work in progress and not inten
 .c or .cpp do both work
 
 on Linux
-gcc main.c -o main -lm -lX11
+gcc main.c -o main -lm -lX11 -lpthreads
 
 on Windows
-gcc main.c -o main -lm
+gcc main.c -o main -lm -lpthreads
