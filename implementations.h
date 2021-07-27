@@ -16,6 +16,7 @@
 #include <stdlib.h>
 
 int **CircleBool;
+int CB_calculated = 0;
 
 void CircleBoolCaluclate(int r){
   int x_circle_axis = r * 2 + 1;
@@ -25,8 +26,10 @@ void CircleBoolCaluclate(int r){
   int x_f = round(r - y_f);
 
   //int **circle;//[x_circle_axis][y_circle_axis];
-  for(int i = 0; i < x_circle_axis; i++){
-    free(CircleBool[i]);
+  if(CB_calculated == 1){
+    for(int i = 0; i < x_circle_axis; i++){
+      free(CircleBool[i]);
+    }
   }
 
   free(CircleBool);
@@ -72,9 +75,12 @@ void CircleBoolCaluclate(int r){
       CircleBool[i][j] = 1;
     }
   }
+
+  CB_calculated = 1;
 }
 
 float **CircleCircumference;
+int CC_calulated = 0;
 
 void CircleCircumferenceCalculate(int r){
   int x_circle_axis = r * 2 + 1;
@@ -84,10 +90,13 @@ void CircleCircumferenceCalculate(int r){
   int x_f = round(r - y_f);
 
   //float **circle;//[x_circle_axis][y_circle_axis];
-  for(int i = 0; i < x_circle_axis; i ++){
-    free(CircleCircumference[i]);
+  if(CC_calulated == 1){
+    for(int i = 0; i < x_circle_axis; i ++){
+      free(CircleCircumference[i]);
+    }
+    free(CircleCircumference);
+
   }
-  free(CircleCircumference);
 
   CircleCircumference = malloc(sizeof(float*) * x_circle_axis);
 
@@ -130,6 +139,8 @@ void CircleCircumferenceCalculate(int r){
       CircleCircumference[i][j] = 6.283185307179586 * p_theorum(r - i, j);
     }
   }
+
+  CC_calulated = 1;
 }
 
 #ifdef __cplusplus
