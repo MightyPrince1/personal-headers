@@ -236,6 +236,9 @@ void DelayT(int time, char time_type[]){
 		#ifdef UNIX
 			XResizeWindow(d,w,Width,Height);
 		#endif
+
+		WindowWidth = Width;
+		WindowHeight = Height;
 	}
 
 	int WindowSizeChanged = 0;
