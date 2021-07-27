@@ -17,6 +17,7 @@ Do not #include this header!
 
 //used by multiple headers
 #define ERROR_RESULTS_IN_EXIT
+#define THREADING_AS_DEFAULT
 
 //CrossPlatform
 #define NO_ACRONYM_INPUT

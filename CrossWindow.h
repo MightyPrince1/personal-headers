@@ -71,8 +71,11 @@ void WindowSpaceWrite(int x, int y, int r,int g, int b){
 }
 
 
-
+#ifdef THREADING_AS_DEFAULT
+void WindowUpdateCompressed(){
+#else
 void WindowUpdate(){
+#endif
   int n_values = 1;
   printf("1\n");
   hex (*value_list) = malloc(sizeof(hex));
@@ -204,7 +207,12 @@ void *WindowUpdateThread(void *thread){
   }
 }
 
-void WindowupdateThreaded(){
+#ifdef THREADING_AS_DEFAULT
+void WindowUpdate(){
+#else
+void WindowUpdateThreaded(){
+#endif
+
   if(n_cores == 0){
     CountCores();
   }
