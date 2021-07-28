@@ -9,6 +9,7 @@ hex WindowSpace[x][y]
     WindowUpdate()
 
     WindowResize(height,width)
+    WindowAjustSize()
     WindowUpdateThreaded()
 */
 #ifndef CROSSWINDOW_H
@@ -74,6 +75,10 @@ void WindowSpaceWrite(int x, int y, int r,int g, int b){
 }
 
 
+#ifdef UNIX
+  #include <unistd.h>
+#endif
+
 #ifdef THREADING_AS_DEFAULT
 void WindowUpdateCompressed(){
 #else
@@ -102,7 +107,7 @@ void WindowUpdate(){
         n_values ++;
 
         if(sizeof(hex) * n_values > sizeof(value_list)){
-          value_list = malloc(sizeof(value_list));
+          value_list = (hex*) realloc(value_list,sizeof(hex) *n_values *2);
         }
 
         //value_list = (hex*) realloc(value_list,sizeof(hex) * n_values);
@@ -110,21 +115,20 @@ void WindowUpdate(){
         value_list[n_values - 1] = WindowSpace[i][j];
       }
     }
-    printf("%d i\n",i);
   }
+
+  value_list = (hex*) realloc(value_list,sizeof(hex) * n_values);
 
   printf("2\n");
 
   printf("%d n_values \n",n_values);
 
-  int value_list_amounts[n_values];
-
-  printf("2.1\n");
+  //int value_list_amounts[n_values];
+  int* value_list_amounts = malloc(sizeof(int) * n_values);
 
   for(int i = 0; i < WindowSpaceHeight; i ++){
     for(int j = 0; j < WindowSpaceWidth; j ++){
       for(int k = 0; k < n_values; k ++){
-        printf("%d k\n",k);
         if(WindowSpace[i][j] == value_list[k]){
           value_list_amounts[k] ++;
           break;
@@ -143,7 +147,20 @@ void WindowUpdate(){
 
   printf("4\n");
 
-  int value_coords[n_values][2][max_n_points];
+  //int value_coords[n_values][2][max_n_points];
+  int*** value_coords = malloc(sizeof(int**)*n_values);
+
+  printf("4.1\n");
+
+  for(int i = 0; i < n_values; i ++){
+    value_coords[i] = malloc(sizeof(int*) * 2);
+
+    for(int j = 0; j < 2; j ++){
+      value_coords[i][j] = malloc(sizeof(int) * max_n_points);
+    }
+  }
+
+  printf("4.2\n");
 
   for(int i = 0; i < n_values; i ++){
     for(int j = 0; j < 2; j ++){
@@ -151,9 +168,11 @@ void WindowUpdate(){
         value_coords[i][j][k] = -1;
       }
     }
+    printf("%d i\n",i);
+    //crashes at 2% and is increadeably slow
   }
 
-  printf("4\n");
+  printf("5\n");
 
   for(int i = 0; i < WindowSpaceHeight; i ++){
     for(int j = 0; j < WindowSpaceWidth; j ++){
@@ -175,7 +194,7 @@ void WindowUpdate(){
     }
   }
 
-  printf("5\n");
+  printf("6\n");
 
   for(int i = 0; i < n_values; i ++){
     #ifdef UNIX
@@ -198,12 +217,20 @@ void WindowResize(int height, int width){
   WindowUpdateSize();
 }
 
+void WindowAdjustSize(){
+  WindowUpdateSize();
+
+  if(WindowSizeChanged == 1){
+    WindowResize(WindowWidth,WindowHeight);
+  }
+}
+/*
 #include <pthread.h>
 
-void *WindowUpdateThread(void *thread){
+int *WindowUpdateThread(int* thread){
   int *thread_interation = (int*) thread;
 
-  for(int i = thread_interation; i < n_count; i ++){
+  for(int i = thread_interation[0]; i < n_cores; i ++){
     for(int j = 0; j < WindowWidth; j ++){
       //a modified version of WindowWrite
       #ifdef UNIX
@@ -225,14 +252,14 @@ void WindowUpdateThreaded(){
     CountCores();
   }
 
-  pthread th_id;
+  pthread_t th_id;
 
-  for(int i = 0; i < n_count; i ++){
-    pthread_create(&id_id,NULL,WindowUpdateThread,(void*) n_count);
+  for(int i = 0; i < n_cores; i ++){
+    pthread_create(&th_id,NULL,WindowUpdateThread,(int*) i);
   }
 
-  pthread_exit();
-}
+  pthread_exit(NULL);
+}*/
 
 #ifdef __cplusplus
   }
