@@ -1,7 +1,7 @@
 /*
 #compiler arguments
 	-lX11	(if you use Linux)
-	
+
 											DelayMS(in milliseconds)
 											DelayT(time, time_type)
 													time_types
@@ -255,6 +255,9 @@ void DelayT(int time, char time_type[]){
 
 			if(WindowWidth != wndAttr.width || WindowHeight != wndAttr.height){
 				XResizeWindow(d,w,wndAttr.width,wndAttr.height);
+
+				WindowWidth = wndAttr.width;
+				WindowHeight = wndAttr.height;
 				WindowSizeChanged = 1;
 			}
 		#endif
