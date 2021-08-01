@@ -52,27 +52,7 @@ extern "C"{
 #include <string.h>
 
 #include "AdMath.h"
-
-
-
-typedef struct{
-	unsigned short r;
-	unsigned short g;
-	unsigned short b;
-}color;
-
-
-
-typedef unsigned long hex;
-
-
-
-typedef struct{
-	double x;
-	double y;
-	double z;
-}axis;
-
+#include "types.h"
 
 
 void DelayMS(int time){
