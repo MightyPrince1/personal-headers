@@ -24,8 +24,7 @@ int HeightOfArray(void array){
 }
 
 int DimesionsOfArray(int array){
-	int just_int = 0;
-	int size_of_single_element = sizeof(just_int);
+	int size_of_single_element = sizeof(int);
 
 
 	int dimensions = 0;
