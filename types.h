@@ -9,6 +9,7 @@ typedef struct{
 	unsigned short r;
 	unsigned short g;
 	unsigned short b;
+	unsigned short a;
 }color;
 
 
@@ -22,6 +23,15 @@ typedef struct{
 	double y;
 	double z;
 }axis;
+
+
+
+typedef struct{
+	axis *vertices;
+	color **bitmap;
+	float scale;
+	unsigned int index;
+}sprite;
 
 #ifdef __CPLUSPLUS
 }
