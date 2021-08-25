@@ -314,7 +314,7 @@ int CountCores(){
     n_cores = sysconf(_SC_NPROCESSORS_ONLN);
 	#endif
 
-	return n_cores;
+	return n_cores * (n_cores != 0) + (n_cores == 0);
 }
 
 
