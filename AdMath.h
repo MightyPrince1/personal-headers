@@ -33,6 +33,9 @@
 (double)						asin_pre(number)
 (double)						acos_pre(number)
 (double)						atan_pre(number)
+(double)						root(number,exponent)
+
+#depricated
 (int)								IntRoot(number,RootOf)	//broken
 
 */
@@ -363,8 +366,14 @@ double atan_pre(float number){
 
 
 
+double root(double number, double exponent){
+	return pow(number,1/exponent);
+}
+
+
+
 //somehow broken
-int IntRoot(int number, int PowerOf){
+/*int IntRoot(int number, int PowerOf){
 	int result = 0;
 	for(int i = 0; i < number; i++){
 		if(!(pow(i,PowerOf) < number)){
@@ -374,7 +383,7 @@ int IntRoot(int number, int PowerOf){
 	}
 
 	return result;
-}
+}*/
 
 #ifdef __cplusplus
 }
