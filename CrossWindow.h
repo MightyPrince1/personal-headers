@@ -224,13 +224,13 @@ void WindowAdjustSize(){
     WindowResize(WindowWidth,WindowHeight);
   }
 }
-/*
+
 #include <pthread.h>
 
-int *WindowUpdateThread(int* thread){
-  int *thread_interation = (int*) thread;
+void *WindowUpdateThread(void* thread){
+  int thread_interation = *((int *)thread);
 
-  for(int i = thread_interation[0]; i < n_cores; i ++){
+  for(int i = thread_interation; i < WindowHeight; i = i + n_cores){
     for(int j = 0; j < WindowWidth; j ++){
       //a modified version of WindowWrite
       #ifdef UNIX
@@ -255,11 +255,11 @@ void WindowUpdateThreaded(){
   pthread_t th_id;
 
   for(int i = 0; i < n_cores; i ++){
-    pthread_create(&th_id,NULL,WindowUpdateThread,(int*) i);
+    pthread_create(&th_id,NULL,WindowUpdateThread,(void*) &i);
   }
 
   pthread_exit(NULL);
-}*/
+}
 
 #ifdef __cplusplus
   }
