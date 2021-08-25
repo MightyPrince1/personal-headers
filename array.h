@@ -24,30 +24,27 @@ int HeightOfArray(void array){
 }
 
 int DimesionsOfArray(int array){
-	int size_of_single_element = sizeof(int);
-
-
 	int dimensions = 0;
 
 	while(){
 		if(dimensions == 0){
-			if(sizeof(array) == size_of_single_element){
+			if(sizeof(array) == sizeof(int)){
 				break;
 			}
 			if(dimensions == 1){
-				if(sizeof(array[0]) == size_of_single_element){
+				if(sizeof(array[0]) == sizeof(int)){
 					break;
 				}
 			}
 
 			if(dimensions == 2){
-				if(sizeof(array[0][0]) == size_of_single_element){
+				if(sizeof(array[0][0]) == sizeof(int)){
 					break;
 				}
 			}
 
 			if(dimensions == 3){
-				if(sizeof(array[0][0][0]) == size_of_single_element){
+				if(sizeof(array[0][0][0]) == sizeof(int)){
 					break;
 				}
 			}
